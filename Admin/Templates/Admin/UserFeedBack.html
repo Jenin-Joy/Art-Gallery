@@ -1,0 +1,42 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document </title>
+</head>
+<br><br><br><br><br><br>
+<H1 align="center">Feedback </H1>
+<body>
+<form action="" method="post">
+    <br><br>
+<table border="1" align="center">
+    <tr>
+        <td>Sl.No</td>
+        <td>Subject</td>
+        <td>FeedBack</td>
+        <td>POSTDate</td>
+        <td>UserName</td>
+        <td>Contact</td>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.feedback_subject}}</td>
+        <td>{{i.feedback_details}}</td>
+        <td>{{i.feedback_postdate}}</td>
+        <td>{{i.user.user_name}}</td>
+        <td>{{i.user.user_contact}}</td>
+        
+        
+    </tr>
+    {% endfor %}
+</form>
+
+</table>
+</body>
+</html>
+{% endblock content %}

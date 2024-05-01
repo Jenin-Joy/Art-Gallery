@@ -1,0 +1,62 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<br><br><br><br><br><br>
+<H1 align="center">Complaint </H1>
+<body>
+    <table border="1" align="center">
+        <br><br>
+            <h2 align="center">Complaint</h2>
+        <tr>
+            
+            <td>Title</td>
+            <td>Complaint</td>
+            <td>POSTDate</td>
+            <td>Reply</td>
+            <td>ReplyDate</td>
+        </tr>
+        
+        <tr>
+            
+            <td>{{complaint.complaint_title}}</td>
+            <td>{{complaint.complaint_details}}</td>
+            <td>{{complaint.complaint_postdate}}</td>
+            <td>{{complaint.complaint_reply}}</td>
+            <td>{{complaint.complaint_replydate}}</td>
+            
+        </tr>
+       
+    </table>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table align="center" border="1">
+            <br><br>
+            <h2 align="center">Post Reply</h2>
+            
+            <tr>
+                <td>Reply</td>
+                <td>
+                    <textarea name="txtreply" id="txtreply" cols="20" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnsubmit" value="Send">
+                    <input type="reset" name="btncancel" value="Cancel">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+{% endblock content %}
+
+

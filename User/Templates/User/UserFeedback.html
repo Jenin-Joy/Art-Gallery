@@ -1,0 +1,64 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeedBack</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table align="center" border="1">
+            <br><br>
+            <h2 align="center">Post Feedback</h2>
+            <tr>
+                <td>Subject</td>
+                <td><input type="text" name="txtsubject" placeholder="Enter Feedback Subject" required></td>
+            </tr>
+            <tr>
+                <td>FeedBack</td>
+                <td>
+                    <textarea name="txtfeedback" id="txtfeedback" cols="20" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnsubmit" value="Save">
+                    <input type="reset" name="btncancel" value="Cancel">
+                </td>
+            </tr>
+        </table>
+        <br><br>
+    </form>
+</body>
+</html>
+
+<table border="1" align="center">
+    <tr>
+        <td>Sl.No</td>
+        <td>Subject</td>
+        <td>Feedback</td>
+        <td>Date</td>
+        
+        <td>Action</td>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.feedback_subject}}</td>
+        <td>{{i.feedback_details}}</td>
+        <td>{{i.feedback_postdate}}</td>
+    
+        <td>
+            <a href="{% url 'User:delFeedback' i.id %}">Delete</a>
+            
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content%}

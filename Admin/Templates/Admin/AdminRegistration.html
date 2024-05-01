@@ -1,0 +1,66 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminRegistration</title>
+</head>
+<body>
+ 
+    <form method="POST">
+        {% csrf_token %}
+        <table align="center">
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txtname" placeholder="Enter Name" required value="{{editdata.admin_name}}"></td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td><input type="text" name="txtcontact" placeholder="Enter District" required value="{{editdata.admin_contact}}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="txtemail" placeholder="Enter District" required value="{{editdata.admin_email}}"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="text" name="txtpwd" placeholder="Enter District" required value="{{editdata.admin_password}}"></td>
+            </tr>
+            <tr>
+                
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnsubmit" value="Save">
+                    <input type="reset" name="btncancel" value="Cancel">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <table border="1" align="center" cellpadding="10">
+        <tr>
+            <th>Sl.No</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.admin_name}}</td>
+            <td>{{i.admin_contact}}</td>
+            <td>{{i.admin_email}}</td>
+            <td>{{i.admin_password}}</td>
+            <td><a href="{% url 'WebAdmin:delAdminReg' i.id %}">Delete</a> | <a href="{% url 'WebAdmin:adminRegUpdate' i.id %}">Edit</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>
+{% endblock content %}

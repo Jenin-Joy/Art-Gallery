@@ -1,0 +1,102 @@
+{% extends 'Artist/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Single Product Booking</h3>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>User</td>
+            <td>Work</td>
+            <td>Booking Date</td>
+            <td>Status</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.user.user_name}}</td>
+            <td>{{i.work.work_caption}}</td>
+            <td>{{i.booking_date}}</td>
+            <td>
+                {% if i.booking_status == 0 %}
+                Payed  | <a href="{% url 'Artist:delivered' i.id %}">Delivered</a>
+                {% else %}
+                Delivered
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br><br>
+    <h3>Multiple Products Booking</h3>
+
+    <table>
+        <tr>
+            <td>#</td>
+            <td>User</td>
+            <td>Bookng Amount</td>
+            <td>Booking Date</td>
+            <td>Status</td>
+        </tr>
+        {% for i in book %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.user.user_name}}</td>
+            <td>{{i.booking_totalamount}}</td>
+            <td>{{i.booking_date}}</td>
+            <td>
+                {% if i.booking_status == 0 %}
+                Payed
+                {% else %}
+                Delivered 
+                {% endif %}
+                | <a href="{% url 'Artist:viewproduct' i.id %}">View Product</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+    <h3>Program Booking</h3>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>User</td>
+            <td>Program</td>
+            <td>Bookng Amount</td>
+            <td>Booking For Date</td>
+            <td>Booking Date</td>
+            <td>Status</td>
+        </tr>
+        {% for i in program %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.user.user_name}}</td>
+            <td>{{i.program.program_caption}}</td>
+            <td>{{i.program.program_price}}</td>
+            <td>{{i.booking_fordate}}</td>
+            <td>{{i.booking_date}}</td>
+            <td>
+                {% if i.booking_status == 1 %}
+                Accepted 
+                {% elif i.booking_status == 2 %}
+                Rejected
+                {% elif i.booking_status == 3 %}
+                Payed
+                {% else %}
+                <a href="{% url 'Artist:program_verification' i.id 1 %}">Accept</a> | <a href="{% url 'Artist:program_verification' i.id 2 %}">Reject</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content%}

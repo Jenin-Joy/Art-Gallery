@@ -1,0 +1,58 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .sub{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background-color: #E1F5FE;
+            width: fit-content;
+            border-radius: 12px;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+        .text-warning {
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        {% for i in data %}
+        <div class="sub">
+            <div><img src="{{i.program_image.url}}" width="250" height="250" alt=""></div>
+            <div>Artist Name :{{i.artist.artist_name}}</div>
+            <div>Program Type :{{i.programtype.programtype_name}}</div>
+            <div>Program Caption :{{i.program_caption}}</div>
+            <div style="display: flex;">Program Details :<div style="width: 200px;">{{i.program_details}}</div></div>
+            <div>Price :{{i.program_price}}</div>
+            <div><a href="{% url 'User:bookprogram' i.id %}">Buy Now</a></div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'User:ViewWork' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

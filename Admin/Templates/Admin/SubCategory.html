@@ -1,0 +1,65 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubCategory</title>
+</head>
+<body>
+  
+    <form method="POST">
+        {% csrf_token %}
+        <table align="center">
+            <tr>
+                <td>Category</td>
+                <td>
+                    <select name="sel_cat" id="sel_cat">
+                        <option value="">...Select...</option>
+                        {% for i in catdata %}
+                        <option 
+                        {% if i.id == editdata.category_id %}
+                        selected
+                        {% endif %}
+                        value="{{i.id}}">{{i.category_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>SubCategory</td>
+                <td><input type="text" name="txtname" placeholder="Enter SubCategory" required value="{{editdata.subcat_name}}"></td>
+            </tr>
+            <tr>
+                
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnsubmit" value="Save">
+                    <input type="reset" name="btncancel" value="Cancel">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <table border="1" align="center" cellpadding="10">
+        <tr>
+            <th>Sl.No</th>
+            <th>Category</th>
+            <th>SubCategory</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.category.category_name}}</td>
+            <td>{{i.subcat_name}}</td>
+            <td><a href="{% url 'WebAdmin:delSubCategory' i.id %}">Delete</a> | <a href="{% url 'WebAdmin:SubCategoryupdate' i.id %}">Edit</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>
+{% endblock content %}

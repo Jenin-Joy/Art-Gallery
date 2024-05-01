@@ -1,0 +1,30 @@
+{% extends 'Artist/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>Image</td>
+            <td>Work</td>
+            <td>Worker</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><img src="{{i.product.work_image.url}}" width="100" height="100" alt=""></td>
+            <td>{{i.product.work_caption}}</td>
+            <td>{{i.product.artist.artist_name}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content%}

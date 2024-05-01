@@ -1,0 +1,36 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Booking For Date</td>
+                <td><input type="date" name="txt_fdate" id=""></td>
+            </tr>
+            <tr>
+                <td>Booking Details</td>
+                <td><textarea name="txt_bdetails" id="" cols="30" rows="10"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Book"></td>
+            </tr>
+        </table>
+    </form>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'User:viewbooking' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}
