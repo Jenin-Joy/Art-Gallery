@@ -62,7 +62,12 @@
                 <i class="fas fa-star star-light"></i>
                 {% endif %} {% endfor %}
             </div>
-            <div><a href="{% url 'User:buynow' i.id %}">Buy Now</a> | <a href="{% url 'User:addcart' i.id %}">Add To Cart</a></div>
+            <div>
+                {% if i.work_stock == 0 %}
+                <span style="color: red;">Out Of Stock</span>
+                {% else %}
+                <a href="{% url 'User:buynow' i.id %}">Buy Now</a> | <a href="{% url 'User:addcart' i.id %}">Add To Cart</a></div>
+                {% endif %}
         </div>
         {% endfor %}
     </div>

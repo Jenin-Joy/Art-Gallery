@@ -17,7 +17,7 @@
             <tr>
                 <td>District</td>
                 <td>
-                    <select name="sel_district" id="sel_district">
+                    <select name="sel_district" id="sel_district" required>
                         <option value="">...Select...</option>
                         {% for i in districtdata %}
                         <option value="{{i.id}}">{{i.district_name}}</option>
@@ -28,14 +28,14 @@
             <tr>
                 <td>Place</td>
                 <td>
-                    <select name="sel_place" id="sel_place">
+                    <select name="sel_place" id="sel_place" required>
                         <option value="">...Select...</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>Name</td>
-                <td><input type="text" name="txtname" placeholder="Enter Name" required ></td>
+                <td><input type="text" name="txtname" placeholder="Enter Name" required autocomplete="off" title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"></td>
             </tr>
             <tr>
                 <td>Gender</td>
@@ -46,23 +46,23 @@
             </tr>
             <tr>
                 <td>Contact</td>
-                <td><input type="text" name="txtcontact" placeholder="Enter Contact" required ></td>
+                <td><input type="text" name="txtcontact" placeholder="Enter Contact" required  autocomplete="off" title="Enter A Valid Contact" pattern="[7-9]{1}[0-9]{9}"></td>
             </tr>
             <tr>
                 <td>Email</td>
-                <td><input type="email" name="txtemail" placeholder="Enter Email" required ></td>
+                <td><input type="email" name="txtemail" placeholder="Enter Email" required autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><textarea name="txt_address" id="" cols="34" rows="3" required autocomplete="off" title="Enter A Valid Address"></textarea></td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type="password" name="txtpwd" placeholder="Enter Password" required ></td>
+                <td><input type="password" name="txtpwd" placeholder="Enter Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"></td>
             </tr>
             <tr>
                 <td>Photo</td>
                 <td><input type="file" name="fileImage"  required ></td>
-            </tr>
-            <tr>
-                <td>Proof</td>
-                <td><input type="file" name="fileProof"  required ></td>
             </tr>
             <tr>
                 

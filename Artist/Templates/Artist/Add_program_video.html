@@ -1,0 +1,51 @@
+{% extends 'Artist/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Program</td>
+                <td><input type="file" name="txt_program" id=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'Artist:addprogramvideo' id %}"
+    </script>
+    {% endif %}
+<br><br>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>Program</td>
+            <td>Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>
+                <video controls width="200" height="200">
+                    <source src="{{i.program_video.url}}"></source>
+                </video>
+            </td>
+            <td><a href="{% url 'Artist:delete_program_video' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

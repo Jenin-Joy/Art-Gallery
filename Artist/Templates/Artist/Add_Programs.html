@@ -1,6 +1,7 @@
 {% extends 'Artist/Header.html' %}
 {% load static %}
 {% block content %}
+{% load mathfilters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,6 +57,7 @@
             <th>Details</th>
             <th>Type</th>
             <th>Price</th>
+            <th>Bookng Amount</th>
             <th>Image</th>
             <th>Action</th>
         </tr>
@@ -66,9 +68,11 @@
             <td>{{i.program_details}}</td>
             <td>{{i.programtype.programtype_name}}</td>
             <td>{{i.program_price}}</td>
+            <td>{{i.program_price|mul:10|div:100}}</td>
             <td><img src="{{i.program_image.url}}" width="150" height="150" alt=""></td>
             <td>
-                <a href="{% url 'Artist:delprogram' i.id %}">Delete</a>
+                <a href="{% url 'Artist:delprogram' i.id %}">Delete</a> /
+                <a href="{% url 'Artist:addprogramvideo' i.id %}">Add Video</a>
             </td>
         </tr>
         {% endfor %}

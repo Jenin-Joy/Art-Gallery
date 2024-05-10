@@ -112,16 +112,17 @@ def bookprogram(request,id):
 
 def buynow(request,id):
     work = tbl_artistwork.objects.get(id=id)
+    total = work.work_price
     if request.method == "POST":
         tbl_booking.objects.create(user=tbl_user.objects.get(id=request.session["uid"]),
                                     work=tbl_artistwork.objects.get(id=id))
         return redirect("User:loader")
     else:
-        return render(request,"User/Payment.html",{"total":work})
+        return render(request,"User/Payment.html",{"total":total})
 
 def program_payment(request,id):
     pg = tbl_programbooking.objects.get(id=id)
-    total = pg.program.program_price 
+    total = (int(pg.program.program_price ) * 10) / 100
     if request.method == "POST":
         pg.booking_status = 3
         pg.save()
@@ -137,13 +138,19 @@ def paymentsuc(request):
 
 def viewbooking(request):
     bk = tbl_booking.objects.filter(user=request.session["uid"])
-    book = tbl_new_booking.objects.filter(user=request.session["uid"])
+    book = tbl_new_booking.objects.filter(user=request.session["uid"],booking_status__gt=0)
     program = tbl_programbooking.objects.filter(user=request.session["uid"])
     return render(request,"User/View_booking.html",{"data":bk,"book":book,"program":program})
 
 def viewproduct(request,id):
     cart = tbl_cart.objects.filter(booking=id)
     return render(request,"User/View_product.html",{"data":cart})
+
+def cancel_booking(request,id):
+    data = tbl_programbooking.objects.get(id=id)
+    data.booking_status = 4
+    data.save()
+    return redirect("User:viewbooking")
 
 def rating(request,mid):
     parray=[1,2,3,4,5]
@@ -287,12 +294,15 @@ def Mycart(request):
         bookingdata.save()
         return redirect("User:payment")
     else:
-        cart = tbl_cart.objects.filter(booking__user=request.session["uid"],booking__booking_status=0)
-        cartcount = tbl_cart.objects.filter(booking__user=request.session["uid"],booking__booking_status=0).count()
-        if cartcount > 0:
-            cc = tbl_cart.objects.get(booking__user=request.session["uid"],booking__booking_status=0)
-            request.session["bookingid"] = cc.booking_id
-        return render(request,"User/MyCart.html",{'cartdata':cart})
+        bookcount = tbl_new_booking.objects.filter(user=request.session["uid"],booking_status=0).count()
+        if bookcount > 0:
+            book = tbl_new_booking.objects.get(user=request.session["uid"],booking_status=0)
+            request.session["bookingid"] = book.id
+            cart = tbl_cart.objects.filter(booking=book)
+            return render(request,"User/MyCart.html",{'cartdata':cart})
+        else:
+            return render(request,"User/MyCart.html")
+        
 
 def DelCart(request,did):
    tbl_cart.objects.get(id=did).delete()
@@ -309,6 +319,13 @@ def CartQty(request):
 def payment(request):
     bk = tbl_new_booking.objects.get(id=request.session["bookingid"])
     if request.method == "POST":
+        cart = tbl_cart.objects.filter(booking=request.session["bookingid"])
+        for i in cart:
+            product = tbl_artistwork.objects.get(id=i.product.id)
+            qty = i.cart_qty
+            stock = product.work_stock
+            product.work_stock = int(stock) - int(qty)
+            product.save()
         bk.booking_status = 2
         bk.save()
         return redirect("User:loader")

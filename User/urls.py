@@ -24,6 +24,7 @@ urlpatterns = [
 
     path('viewbooking/', views.viewbooking, name='viewbooking'),
     path('viewproduct/<int:id>', views.viewproduct, name='viewproduct'),
+    path('cancel_booking/<int:id>', views.cancel_booking, name='cancel_booking'),
 
     path('addcart/<int:pid>',views.Addcart,name='addcart'),
     path("Mycart/", views.Mycart,name="mycart"),

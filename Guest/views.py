@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from Admin.models import *
 from Guest.models import *
+from django.conf import settings
+from django.core.mail import send_mail
 # Create your views here.
 
 def index(request):
@@ -10,7 +12,14 @@ def userRegistration(request):
     district = tbl_district.objects.all()
     if request.method=="POST":
         place = tbl_place.objects.get(id=request.POST.get('sel_place'))
-        tbl_user.objects.create(user_name=request.POST.get("txtname"),user_gender=request.POST.get("gender"),user_contact=request.POST.get("txtcontact"),user_email=request.POST.get("txtemail"),user_photo=request.FILES.get("fileImage"),user_proof=request.FILES.get("fileProof"),user_password=request.POST.get("txtpwd"),place=place)
+        tbl_user.objects.create(user_name=request.POST.get("txtname"),user_gender=request.POST.get("gender"),user_contact=request.POST.get("txtcontact"),user_email=request.POST.get("txtemail"),user_photo=request.FILES.get("fileImage"),user_password=request.POST.get("txtpwd"),user_address=request.POST.get("txt_address"),place=place)
+        email = request.POST.get("txtemail")
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rWelcome to Amaze Artsy " ,#body
+            settings.EMAIL_HOST_USER,
+            [email],
+        )
         return redirect("Guest:userRegistration")
     else:
         return render(request,"Guest/NewUser.html",{"districtdata":district})
@@ -20,6 +29,13 @@ def artistRegistration(request):
     if request.method=="POST":
         place = tbl_place.objects.get(id=request.POST.get('sel_place'))
         tbl_artist.objects.create(artist_address=request.POST.get("txtadd"),artist_about=request.POST.get("txtabout"),artist_name=request.POST.get("txtname"),artist_gender=request.POST.get("gender"),artist_contact=request.POST.get("txtcontact"),artist_email=request.POST.get("txtemail"),artist_photo=request.FILES.get("fileImage"),artist_proof=request.FILES.get("fileProof"),artist_password=request.POST.get("txtpwd"),place=place)
+        email = request.POST.get("txtemail")
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rWelcome to Amaze Artsy " ,#body
+            settings.EMAIL_HOST_USER,
+            [email],
+        )
         return redirect("Guest:artistRegistration")
     else:
         return render(request,"Guest/NewArtist.html",{"districtdata":district})

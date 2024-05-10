@@ -328,7 +328,7 @@
             </div>
             <div class="product-price">{{i.product.work_price}}</div>
             <div class="product-quantity">
-                <input alt="{{i.id}}" type="number" value="{{i.cart_qty}}" min="1"   id="qty" class="qty"/>
+                <input alt="{{i.id}}" type="number" value="{{i.cart_qty}}" min="1"  max="{{i.product.work_stock}}"  id="qty" class="qty"/>
 
             </div>
             <div class="product-removal">

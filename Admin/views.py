@@ -138,7 +138,7 @@ def adminRegUpdate(request,eid):
 
 
 def userListNew(request):
-    userdata = tbl_user.objects.filter(user_status=0)
+    userdata = tbl_user.objects.all()
     return render(request,"Admin/UserListNew.html",{"userdata":userdata})
 
 def acceptuser(request,aid):

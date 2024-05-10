@@ -56,6 +56,18 @@ def addwork(request):
     else:
         return render(request,"Artist/Add_works.html",{"data":work,"arttype":atype})
 
+def updatestock(request,id):
+    if request.method == "POST":
+        data = tbl_artistwork.objects.get(id=id)
+        old_stock = data.work_stock
+        new_stock = request.POST.get("txt_stock")
+        total = int(old_stock) + int(new_stock)
+        data.work_stock = total
+        data.save()
+        return render(request,"Artist/Update_stock.html",{"msg":"Stock Updated.."})
+    else:
+        return render(request,"Artist/Update_stock.html")
+
 def delwork(request,id):
     tbl_artistwork.objects.get(id=id).delete()
     return redirect("Artist:addwork")
@@ -74,8 +86,26 @@ def addprogram(request):
     else:
         return render(request,"Artist/Add_Programs.html",{"data":work,"programtype":atype})
 
+def addprogramvideo(request,id):
+    data = tbl_artistprogram_video.objects.filter(program=id)
+    if request.method == "POST":
+        tbl_artistprogram_video.objects.create(program_video=request.FILES.get("txt_program"),program=tbl_artistprogram.objects.get(id=id))
+        return render(request,"Artist/Add_program_video.html",{"msg":"Program Video is added..","id":id})
+    else:
+        return render(request,"Artist/Add_program_video.html",{"data":data})
+
+def delete_program_video(request,id):
+    data = tbl_artistprogram_video.objects.get(id=id)
+    pgm = data.program.id
+    data.delete()
+    return redirect("Artist:addprogramvideo",pgm)
+
 def delprogram(request,id):
-    tbl_artistprogram.objects.get(id=id).delete()
+    data = tbl_artistprogram.objects.get(id=id)
+    vid = tbl_artistprogram_video.objects.filter(program=data.id)
+    for i in vid:
+        i.delete()
+    data.delete()
     return redirect("Artist:addprogram")
 
 def viewbooking(request):
@@ -95,6 +125,12 @@ def viewproduct(request,id):
 def delivered(request,id):
     bk = tbl_booking.objects.get(id=id)
     bk.booking_status = 1
+    bk.save()
+    return redirect("Artist:viewbooking")
+
+def multidelivered(request,id):
+    bk = tbl_new_booking.objects.get(id=id)
+    bk.booking_status = 3
     bk.save()
     return redirect("Artist:viewbooking")
 

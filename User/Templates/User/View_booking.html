@@ -1,6 +1,7 @@
 {% extends 'User/Header.html' %}
 {% load static %}
 {% block content %}
+{% load mathfilters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,11 +51,16 @@
             <td>{{i.booking_date}}</td>
             <td>
                 {% if i.booking_status == 0 %}
-                Payed
+                pending
+                {% elif i.booking_status == 1 %}
+                Not Payed
+                {% elif i.booking_status == 2 %}
+                payed | <a href="{% url 'User:viewproduct' i.id %}">View Product</a>
+                {% elif i.booking_status == 3 %}
+                Delivered | <a href="{% url 'User:viewproduct' i.id %}">View Product</a>
                 {% else %}
-                Delivered 
+                Nothing
                 {% endif %}
-                | <a href="{% url 'User:viewproduct' i.id %}">View Product</a>
             </td>
         </tr>
         {% endfor %}
@@ -67,6 +73,7 @@
             <td>#</td>
             <td>Artist</td>
             <td>Program</td>
+            <td>Amount</td>
             <td>Bookng Amount</td>
             <td>Booking For Date</td>
             <td>Booking Date</td>
@@ -78,6 +85,7 @@
             <td>{{i.program.artist.artist_name}}</td>
             <td>{{i.program.program_caption}}</td>
             <td>{{i.program.program_price}}</td>
+            <td>{{i.program.program_price|mul:10|div:100}}</td>
             <td>{{i.booking_fordate}}</td>
             <td>{{i.booking_date}}</td>
             <td>
@@ -86,7 +94,9 @@
                 {% elif i.booking_status == 2 %}
                 Rejected
                 {% elif i.booking_status == 3 %}
-                Payed
+                Payed | <a href="{% url 'User:cancel_booking' i.id %}">Cancel Booking</a>
+                {% elif i.booking_status == 4 %}
+                Cancelled
                 {% else %}
                 Pending 
                 {% endif %}
