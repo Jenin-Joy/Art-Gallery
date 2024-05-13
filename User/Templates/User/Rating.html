@@ -17,6 +17,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+        <style>
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
 
 </head>
 
@@ -25,7 +31,7 @@
     <div class="container">
         <h1 class="mt-5 mb-5"></h1>
         <div class="card">
-            <div class="card-header">Rating Box</div>
+            <div class="card-header">Rating Box <a href="{% url 'User:homepage' %}" style="text-decoration: none;">Home</a></div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-4 text-center">

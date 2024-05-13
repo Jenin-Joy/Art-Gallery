@@ -5,7 +5,6 @@ from Admin import views
 app_name="WebAdmin"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
 
     path('HomePage/',views.LoadingHomePage,name="LoadingHomePage"),
 

@@ -26,6 +26,15 @@ def editprofile(request):
     else:
         return render(request,"Artist/EditProfile.html",{'prodata':prodata})
 
+def editprofilephoto(request):
+    prodata=tbl_artist.objects.get(id=request.session["artid"])
+    if request.method == "POST":
+        prodata.artist_photo = request.FILES.get("txt_photo")
+        prodata.save()
+        return render(request,"Artist/EditProfile.html",{'msg':"Profile Photo Updated"})
+    else:
+        return render(request,"Artist/EditProfilePhoto.html",{"photo":prodata})
+
 def changepassword(request):
     if request.method=="POST":
         ccount=tbl_artist.objects.filter(id=request.session["artid"],artist_password=request.POST.get('txtcurpass')).count()
@@ -56,6 +65,28 @@ def addwork(request):
     else:
         return render(request,"Artist/Add_works.html",{"data":work,"arttype":atype})
 
+def editwork(request,id):
+    atype = tbl_arttype.objects.all()
+    work = tbl_artistwork.objects.get(id=id)
+    if request.method == "POST":
+        if request.FILES.get("txt_image"):
+            work.arttype = tbl_arttype.objects.get(id=request.POST.get("sel_arttype"))
+            work.work_caption = request.POST.get("txt_caption")
+            work.work_details = request.POST.get("txt_details")
+            work.work_image = request.FILES.get("txt_image")
+            work.work_price = request.POST.get("txt_price")
+            work.save()
+            return render(request,"Artist/Add_works.html",{"msg":"Data Updated"})
+        else:
+            work.arttype = tbl_arttype.objects.get(id=request.POST.get("sel_arttype"))
+            work.work_caption = request.POST.get("txt_caption")
+            work.work_details = request.POST.get("txt_details")
+            work.work_price = request.POST.get("txt_price")
+            work.save()
+            return render(request,"Artist/Add_works.html",{"msg":"Data Updated"})
+    else:
+        return render(request,"Artist/Add_works.html",{"work":work,"arttype":atype})
+
 def updatestock(request,id):
     if request.method == "POST":
         data = tbl_artistwork.objects.get(id=id)
@@ -85,6 +116,28 @@ def addprogram(request):
         return redirect("Artist:addprogram")
     else:
         return render(request,"Artist/Add_Programs.html",{"data":work,"programtype":atype})
+
+def editprogram(request,id):
+    atype = tbl_programtype.objects.all()
+    work = tbl_artistprogram.objects.get(id=id)
+    if request.method == "POST":
+        if request.FILES.get("txt_image"):
+            work.programtype=tbl_programtype.objects.get(id=request.POST.get("sel_arttype"))
+            work.program_caption=request.POST.get("txt_caption")
+            work.program_details=request.POST.get("txt_details")
+            work.program_image=request.FILES.get("txt_image")
+            work.program_price=request.POST.get("txt_price")
+            work.save()
+            return render(request,"Artist/Add_Programs.html",{"msg":"Data Updated"})
+        else:
+            work.programtype=tbl_programtype.objects.get(id=request.POST.get("sel_arttype"))
+            work.program_caption=request.POST.get("txt_caption")
+            work.program_details=request.POST.get("txt_details")
+            work.program_price=request.POST.get("txt_price")
+            work.save()
+            return render(request,"Artist/Add_Programs.html",{"msg":"Data Updated"})
+    else:
+        return render(request,"Artist/Add_Programs.html",{"work":work,"programtype":atype})
 
 def addprogramvideo(request,id):
     data = tbl_artistprogram_video.objects.filter(program=id)

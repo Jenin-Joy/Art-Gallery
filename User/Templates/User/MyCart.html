@@ -300,10 +300,20 @@
                 background-color: #2ecc71;
             }
 
-
+            .con {
+                display: flex;
+                justify-content: flex-end;
+            }
+            .cons {
+                padding: 10px;
+                background-color: #2ecc71;
+                border-radius: 10px;
+                text-decoration: none;
+            }
         </style>
    
    <body onload="recalculateCart()">
+    <div class="con"><a href="{% url 'User:homepage' %}" class="cons">Home</a></div>
     <form method="POST" id="Form" data-quantity-url="{% url 'User:cartqty' %}" >
         {%csrf_token %}
         <div class="shopping-cart" style="margin-top: 50px">

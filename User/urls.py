@@ -14,6 +14,7 @@ urlpatterns = [
     path('ViewWork/', views.ViewWork, name='ViewWork'),
 
     path('viewprogram/', views.viewprogram, name='viewprogram'),
+    path('viewprogramvideo/<int:id>', views.viewprogramvideo, name='viewprogramvideo'),
     path('bookprogram/<int:id>', views.bookprogram, name='bookprogram'),
     path('program_payment/<int:id>', views.program_payment, name='program_payment'),
 

@@ -1,0 +1,49 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .sub{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background-color: #E1F5FE;
+            width: fit-content;
+            border-radius: 12px;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    {% if data %}
+    <div class="main">
+        {% for i in data %}
+        <div class="sub">
+            <video controls width="200" height="200">
+                <source src="{{i.program_video.url}}"></source>
+            </video>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 style="color: red;">No Video</h3>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

@@ -76,6 +76,7 @@ def delFeedback(request,did):
     return redirect("User:UserFeedback")
 
 def ViewWork(request):
+    art = tbl_arttype.objects.all()
     ar=[1,2,3,4,5]
     parry=[]
     avg=0
@@ -94,11 +95,38 @@ def ViewWork(request):
             parry.append(0)
         # print(parry)
     datas=zip(work,parry)
-    return render(request,"User/View_work.html",{"data":datas,"ar":ar})    
+    if request.method == "POST":
+        work=tbl_artistwork.objects.filter(arttype=request.POST.get("sel_arttype"))
+        for i in work:
+            tot=0
+            ratecount=tbl_rating.objects.filter(work=i.id).count()
+            if ratecount>0:
+                ratedata=tbl_rating.objects.filter(work=i.id)
+                for j in ratedata:
+                    tot=tot+j.rating_data
+                    avg=tot//ratecount
+                    #print(avg)
+                parry.append(avg)
+            else:
+                parry.append(0)
+            # print(parry)
+        datas=zip(work,parry)
+        return render(request,"User/View_work.html",{"data":datas,"ar":ar,"art":art})
+    else:
+        return render(request,"User/View_work.html",{"data":datas,"ar":ar,"art":art})    
 
 def viewprogram(request):
+    pgm = tbl_programtype.objects.all()
     data = tbl_artistprogram.objects.all()
-    return render(request,"User/View_Program.html",{"data":data})
+    if request.method == "POST":
+        data = tbl_artistprogram.objects.filter(programtype=request.POST.get("sel_program"))
+        return render(request,"User/View_Program.html",{"data":data,"pgm":pgm})
+    else:
+        return render(request,"User/View_Program.html",{"data":data,"pgm":pgm})
+
+def viewprogramvideo(request,id):
+    data = tbl_artistprogram_video.objects.filter(program=id)
+    return render(request,"User/View_program_video.html",{"data":data})
 
 def bookprogram(request,id):
     if request.method == "POST":

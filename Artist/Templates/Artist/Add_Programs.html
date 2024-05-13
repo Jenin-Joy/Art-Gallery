@@ -19,7 +19,11 @@
                     <select name="sel_arttype" id="">
                         <option value="">...Select...</option>
                         {% for i in programtype %}
-                        <option value="{{i.id}}">{{i.programtype_name}}</option>
+                        <option 
+                        {% if work.programtype.id == i.id %}
+                        selected
+                        {% endif %}
+                        value="{{i.id}}">{{i.programtype_name}}</option>
                         {% endfor %}
                     </select>
                 </td>
@@ -27,13 +31,13 @@
             <tr>
                 <td>Caption</td>
                 <td>
-                    <input type="text" name="txt_caption" id="">
+                    <input type="text" name="txt_caption" id="" value="{{work.program_caption}}">
                 </td>
             </tr>
             <tr>
                 <td>Details</td>
                 <td>
-                    <textarea name="txt_details" id="" cols="20" rows="5"></textarea>
+                    <textarea name="txt_details" id="" cols="20" rows="5">{{work.program_details}}</textarea>
                 </td>
             </tr>
             <tr>
@@ -42,7 +46,7 @@
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type="text" name="txt_price" id=""></td>
+                <td><input type="text" name="txt_price" id="" value="{{work.program_price}}"></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="Add"></td>
@@ -72,12 +76,19 @@
             <td><img src="{{i.program_image.url}}" width="150" height="150" alt=""></td>
             <td>
                 <a href="{% url 'Artist:delprogram' i.id %}">Delete</a> /
-                <a href="{% url 'Artist:addprogramvideo' i.id %}">Add Video</a>
+                <a href="{% url 'Artist:addprogramvideo' i.id %}">Add Video</a> /
+                <a href="{% url 'Artist:editprogram' i.id %}">Edit</a>
             </td>
         </tr>
         {% endfor %}
 
     </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'Artist:addprogram' %}"
+    </script>
+    {% endif %}
 </body>
 </html>
 {% endblock content %}

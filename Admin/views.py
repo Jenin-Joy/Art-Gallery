@@ -6,7 +6,10 @@ from datetime import date
 # Create your views here.
 
 def LoadingHomePage(request):
-    return render(request,"Admin/HomePage.html")
+    usercount = tbl_user.objects.all().count()
+    artistcount = tbl_artist.objects.filter(artist_status=1).count()
+    userdata = tbl_artist.objects.filter(artist_status=1)
+    return render(request,"Admin/HomePage.html",{"user":usercount,"artist":artistcount,"userdata":userdata})
 
 def logout(request):
     del request.session["aid"]

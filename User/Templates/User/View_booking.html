@@ -94,12 +94,13 @@
                 {% elif i.booking_status == 2 %}
                 Rejected
                 {% elif i.booking_status == 3 %}
-                Payed | <a href="{% url 'User:cancel_booking' i.id %}">Cancel Booking</a>
+                Payed
                 {% elif i.booking_status == 4 %}
                 Cancelled
                 {% else %}
                 Pending 
                 {% endif %}
+                | <a href="{% url 'User:cancel_booking' i.id %}">Cancel Booking</a>
             </td>
         </tr>
         {% endfor %}

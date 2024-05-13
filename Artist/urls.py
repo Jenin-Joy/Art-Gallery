@@ -5,13 +5,16 @@ urlpatterns = [
     path('homepage/',views.homepage,name="homepage"),
     path('My_profile/',views.my_pro,name="my_pro"),
     path('editprofile/',views.editprofile,name="editprofile"),
+    path('editprofilephoto/',views.editprofilephoto,name="editprofilephoto"),
     path('changepassword/',views.changepassword,name="changepassword"),
 
     path('addwork/',views.addwork,name="addwork"),
+    path('editwork/<int:id>',views.editwork,name="editwork"),
     path('updatestock/<int:id>',views.updatestock,name="updatestock"),
     path('delwork/<int:id>',views.delwork,name="delwork"),
 
     path('addprogram/',views.addprogram,name="addprogram"),
+    path('editprogram/<int:id>',views.editprogram,name="editprogram"),
     path('addprogramvideo/<int:id>',views.addprogramvideo,name="addprogramvideo"),
     path('delete_program_video/<int:id>',views.delete_program_video,name="delete_program_video"),
     path('delprogram/<int:id>',views.delprogram,name="delprogram"),
