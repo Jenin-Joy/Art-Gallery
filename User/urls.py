@@ -41,6 +41,9 @@ urlpatterns = [
     path('newajaxstar/',views.newajaxstar,name="newajaxstar"),
     path('newstarrating/',views.newstarrating,name="newstarrating"),
 
+    path('viewevent/',views.viewevent,name="viewevent"),
+
+
     path('logout/',views.logout,name="logout"),
 
 ]

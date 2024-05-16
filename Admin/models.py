@@ -27,3 +27,10 @@ class tbl_subcategory(models.Model):
 
 class tbl_programtype(models.Model):
     programtype_name=models.CharField(max_length=50)
+
+class tbl_event(models.Model):
+    event_name=models.CharField(max_length=30)
+    event_start_date=models.DateField()
+    event_end_date=models.DateField()
+    event_details=models.CharField(max_length=30)
+    event_image=models.FileField(upload_to='Assets/EventPhoto/')

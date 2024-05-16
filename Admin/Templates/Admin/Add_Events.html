@@ -1,0 +1,97 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Event Name</td>
+                <td><input type="text" name="txt_name" id=""></td>
+            </tr>
+            <tr>
+                <td>Start Date</td>
+                <td>
+                    <input type="date" name="txt_sdate" id="inputdate1">
+                </td>
+            </tr>
+            <tr>
+                <td>End Date</td>
+                <td>
+                    <input type="date" name="txt_edate" id="inputdate2">
+                </td>
+            </tr>
+            <tr>
+                <td>Details</td>
+                <td>
+                    <textarea name="txt_details" id="" cols="20" rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td><input type="file" name="txt_image" id=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+
+    <table border="1" align="center" cellpadding="10">
+        <tr>
+            <th>Sl.No</th>
+            <th>Event Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Details</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.event_name}}</td>
+            <td>{{i.event_start_date}}</td>
+            <td>{{i.event_end_date}}</td>
+            <td>{{i.event_details}}</td>
+            <td><img src="{{i.event_image.url}}" width="150" height="150" alt=""></td>
+            <td>
+                <a href="{% url 'WebAdmin:delevent' i.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'WebAdmin:addevent' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var dtToday = new Date();
+     
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+         day = '0' + day.toString();
+        var maxDate = year + '-' + month + '-' + day;
+        $('#inputdate1').attr('min', maxDate);
+        $('#inputdate2').attr('min', maxDate);
+    });
+    </script>
+{% endblock content %}

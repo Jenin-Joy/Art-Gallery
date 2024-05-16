@@ -359,3 +359,7 @@ def payment(request):
         return redirect("User:loader")
     else:
         return render(request,"User/Payment.html",{"book":bk})
+
+def viewevent(request):
+    data = tbl_event.objects.all()
+    return render(request,"User/View_Events.html",{"data":data})

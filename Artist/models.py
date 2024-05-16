@@ -27,3 +27,8 @@ class tbl_artistprogram(models.Model):
 class tbl_artistprogram_video(models.Model):
     program_video = models.FileField(upload_to='Assets/Program_video/')
     program = models.ForeignKey(tbl_artistprogram, on_delete=models.CASCADE)
+
+class tbl_feedback(models.Model):
+    feedback = models.CharField(max_length=100)
+    artist = models.ForeignKey(tbl_artist, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)

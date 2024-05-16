@@ -16,7 +16,7 @@ def userRegistration(request):
         email = request.POST.get("txtemail")
         send_mail(
             'Respected Sir/Madam ',#subject
-            "\rWelcome to Amaze Artsy " ,#body
+            "\rWelcome to Amaze Artsy. Your Registration is sucessfully completed." ,#body
             settings.EMAIL_HOST_USER,
             [email],
         )
@@ -32,7 +32,7 @@ def artistRegistration(request):
         email = request.POST.get("txtemail")
         send_mail(
             'Respected Sir/Madam ',#subject
-            "\rWelcome to Amaze Artsy " ,#body
+            "\rWelcome to Amaze Artsy. Your Registration is sucessfully completed. " ,#body
             settings.EMAIL_HOST_USER,
             [email],
         )

@@ -26,6 +26,10 @@ urlpatterns = [
     path('viewproduct/<int:id>', views.viewproduct, name='viewproduct'),
     path('delivered/<int:id>',views.delivered,name="delivered"),
     path('multidelivered/<int:id>',views.multidelivered,name="multidelivered"),
+
+    path('feedback/',views.feedback,name="feedback"),
+    path('viewevent/',views.viewevent,name="viewevent"),
+
     path('logout/',views.logout,name="logout"),
 
 ]

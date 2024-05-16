@@ -8,16 +8,7 @@ class tbl_complaint(models.Model):
     complaint_reply=models.CharField(max_length=500)
     complaint_replydate=models.DateField(null=True)
     complaint_status = models.IntegerField(default="0")
-    user = models.ForeignKey(tbl_user, on_delete=models.CASCADE,null=True)
-   
-
-class tbl_feedback(models.Model):
-    feedback_subject=models.CharField(max_length=500)
-    feedback_details=models.CharField(max_length=500)
-    feedback_postdate=models.DateField(auto_now_add=True)
-    feedback_status = models.IntegerField(default="0")
-    user = models.ForeignKey(tbl_user, on_delete=models.CASCADE)
-    
+    user = models.ForeignKey(tbl_user, on_delete=models.CASCADE,null=True)    
 
 class tbl_booking(models.Model):
     user = models.ForeignKey(tbl_user, on_delete=models.CASCADE)

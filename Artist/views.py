@@ -192,3 +192,14 @@ def program_verification(request,id,val):
     pg.booking_status = val
     pg.save()
     return redirect("Artist:viewbooking")
+
+def feedback(request):
+    if request.method == "POST":
+        tbl_feedback.objects.create(feedback=request.POST.get("txt_feedback"),artist=tbl_artist.objects.get(id=request.session["artid"]))
+        return render(request,"Artist/FeedBack.html",{"msg":"FeedBack Send Sucessfully"})
+    else:
+        return render(request,"Artist/FeedBack.html")
+
+def viewevent(request):
+    data = tbl_event.objects.all()
+    return render(request,"Artist/View_Events.html",{"data":data})

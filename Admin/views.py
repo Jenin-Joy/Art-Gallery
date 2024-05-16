@@ -267,6 +267,22 @@ def ComplaintSolved(request):
     return render(request,"Admin/ComplaintListSolved.html",{'userComplaint':userComplaint})
     
 
-def UserFeedbackNew(request):
-    data=tbl_feedback.objects.filter(feedback_status=0)
-    return render(request,"Admin/UserFeedBack.html",{'data':data})
+def viewfeedback(request):
+    data=tbl_feedback.objects.all()
+    return render(request,"Admin/View_Feedback.html",{'data':data})
+
+def addevent(request):
+    event = tbl_event.objects.all()
+    if request.method == "POST":
+        tbl_event.objects.create(event_name=request.POST.get("txt_name"),
+                                event_start_date=request.POST.get("txt_sdate"),
+                                event_end_date=request.POST.get("txt_edate"),
+                                event_details=request.POST.get("txt_details"),
+                                event_image=request.FILES.get("txt_image"))
+        return render(request,"Admin/Add_Events.html",{"msg":"Event Added Sucessfully.."})
+    else:
+        return render(request,"Admin/Add_Events.html",{"data":event})
+
+def delevent(request,id):
+    tbl_event.objects.get(id=id).delete()
+    return redirect("WebAdmin:addevent")

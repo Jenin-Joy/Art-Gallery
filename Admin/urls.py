@@ -56,6 +56,9 @@ urlpatterns = [
     path('ComplaintReply/<int:cid>',views.ComplaintReply,name="ComplaintReply"),
     path('ComplaintSolved/',views.ComplaintSolved,name="ComplaintSolved"),
 
+    path('viewfeedback/',views.viewfeedback,name="viewfeedback"),
+    path('addevent/',views.addevent,name="addevent"),
+    path('delevent/<int:id>',views.delevent,name="delevent"),
 
-    path('UserFeedbackNew/',views.UserFeedbackNew,name="UserFeedbackNew"),
+
 ]
