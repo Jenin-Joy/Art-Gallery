@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 from Admin.models import *
 from Guest.models import *
 from User.models import *
-from datetime import date
+from datetime import date,datetime
+from django.conf import settings
+from django.core.mail import send_mail
 # Create your views here.
 
 def LoadingHomePage(request):
@@ -173,14 +175,28 @@ def ArtistListNew(request):
 
 def acceptartist(request,aid):
     user = tbl_artist.objects.get(id=aid)
+    email = user.artist_email
     user.artist_status = 1
     user.save()
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\rYour Registration is Accepted. Now you can login and use our site. " ,#body
+        settings.EMAIL_HOST_USER,
+        [email],
+    )
     return redirect("WebAdmin:LoadingHomePage")
 
 def rejectartist(request,rid):
     user = tbl_artist.objects.get(id=rid)
+    email = user.artist_email
     user.artist_status = 2
     user.save()
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\rYour Registration is Rejected due to some issue. " ,#body
+        settings.EMAIL_HOST_USER,
+        [email],
+    )
     return redirect("WebAdmin:LoadingHomePage")
 
 def ArtistListAccepted(request):

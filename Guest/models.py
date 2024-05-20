@@ -15,7 +15,6 @@ class tbl_user(models.Model):
 
 class tbl_artist(models.Model):
     artist_name=models.CharField(max_length=50)
-    artist_gender=models.CharField(max_length=50)
     artist_contact=models.CharField(max_length=50)
     artist_email=models.CharField(max_length=50)
     artist_address=models.CharField(max_length=500)

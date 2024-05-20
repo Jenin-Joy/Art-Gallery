@@ -16,7 +16,7 @@
             <tr>
                 <td>Program Type</td>
                 <td>
-                    <select name="sel_arttype" id="">
+                    <select name="sel_arttype" id="" required>
                         <option value="">...Select...</option>
                         {% for i in programtype %}
                         <option 
@@ -31,22 +31,22 @@
             <tr>
                 <td>Caption</td>
                 <td>
-                    <input type="text" name="txt_caption" id="" value="{{work.program_caption}}">
+                    <input type="text" name="txt_caption" id="" value="{{work.program_caption}}" autocomplete="off" required>
                 </td>
             </tr>
             <tr>
                 <td>Details</td>
                 <td>
-                    <textarea name="txt_details" id="" cols="20" rows="5">{{work.program_details}}</textarea>
+                    <textarea name="txt_details" id="" cols="20" rows="5" autocomplete="off" required>{{work.program_details}}</textarea>
                 </td>
             </tr>
             <tr>
                 <td>Image</td>
-                <td><input type="file" name="txt_image" id=""></td>
+                <td><input type="file" name="txt_image" id="" autocomplete="off" required></td>
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type="text" name="txt_price" id="" value="{{work.program_price}}"></td>
+                <td><input type="text" name="txt_price" id="" value="{{work.program_price}}" autocomplete="off" required></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="Add"></td>

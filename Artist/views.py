@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from Guest.models import *
 from Artist.models import *
 from User.models import *
+from django.conf import settings
+from django.core.mail import send_mail
 # Create your views here.
 
 def homepage(request):
@@ -177,14 +179,43 @@ def viewproduct(request,id):
 
 def delivered(request,id):
     bk = tbl_booking.objects.get(id=id)
+    user_email = bk.user.user_email
+    artist_email = bk.work.artist.artist_email
     bk.booking_status = 1
     bk.save()
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\Your Product is delivered." ,#body
+        settings.EMAIL_HOST_USER,
+        [user_email],
+    )
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\rItem Is Delivered." ,#body
+        settings.EMAIL_HOST_USER,
+        [artist_email],
+    )
     return redirect("Artist:viewbooking")
 
 def multidelivered(request,id):
     bk = tbl_new_booking.objects.get(id=id)
+    user_email = bk.user.user_email
+    cart = tbl_cart.objects.filter(booking=id).last()
+    artist_email = cart.product.artist.artist_email
     bk.booking_status = 3
     bk.save()
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\Your Product is delivered." ,#body
+        settings.EMAIL_HOST_USER,
+        [user_email],
+    )
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\rItem Is Delivered." ,#body
+        settings.EMAIL_HOST_USER,
+        [artist_email],
+    )
     return redirect("Artist:viewbooking")
 
 def program_verification(request,id,val):

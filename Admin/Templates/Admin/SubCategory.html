@@ -16,7 +16,7 @@
             <tr>
                 <td>Category</td>
                 <td>
-                    <select name="sel_cat" id="sel_cat">
+                    <select name="sel_cat" id="sel_cat" required>
                         <option value="">...Select...</option>
                         {% for i in catdata %}
                         <option 
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td>SubCategory</td>
-                <td><input type="text" name="txtname" placeholder="Enter SubCategory" required value="{{editdata.subcat_name}}"></td>
+                <td><input type="text" name="txtname" placeholder="Enter SubCategory" required value="{{editdata.subcat_name}}" autocomplete="off"></td>
             </tr>
             <tr>
                 

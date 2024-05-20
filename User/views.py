@@ -3,6 +3,8 @@ from Guest.models import *
 from User.models import *
 from Artist.models import *
 from django.http import JsonResponse 
+from django.conf import settings
+from django.core.mail import send_mail
 # Create your views here.
 
 def homepage(request):
@@ -130,10 +132,26 @@ def viewprogramvideo(request,id):
 
 def bookprogram(request,id):
     if request.method == "POST":
+        user = tbl_user.objects.get(id=request.session["uid"])
+        user_email = user.user_email
+        pgm = tbl_artistprogram.objects.get(id=id)
+        artist_email = pgm.artist.artist_email
         tbl_programbooking.objects.create(user=tbl_user.objects.get(id=request.session["uid"]),
                                         program=tbl_artistprogram.objects.get(id=id),
                                         booking_fordate=request.POST.get("txt_fdate"),
                                         booking_description=request.POST.get("txt_bdetails"))
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rYour Booking Is Sucessfully Completed." ,#body
+            settings.EMAIL_HOST_USER,
+            [user_email],
+        )
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rYou Have A Booking." ,#body
+            settings.EMAIL_HOST_USER,
+            [artist_email],
+        )
         return render(request,"User/Book_programs.html",{"msg":"Program Booked"})
     else:
         return render(request,"User/Book_programs.html")
@@ -142,8 +160,24 @@ def buynow(request,id):
     work = tbl_artistwork.objects.get(id=id)
     total = work.work_price
     if request.method == "POST":
+        user = tbl_user.objects.get(id=request.session["uid"])
+        user_email = user.user_email
+        pgm = tbl_artistwork.objects.get(id=id)
+        artist_email = pgm.artist.artist_email
         tbl_booking.objects.create(user=tbl_user.objects.get(id=request.session["uid"]),
                                     work=tbl_artistwork.objects.get(id=id))
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rYour Booking Is Sucessfully Completed." ,#body
+            settings.EMAIL_HOST_USER,
+            [user_email],
+        )
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rYou Have A Booking." ,#body
+            settings.EMAIL_HOST_USER,
+            [artist_email],
+        )
         return redirect("User:loader")
     else:
         return render(request,"User/Payment.html",{"total":total})
@@ -152,8 +186,24 @@ def program_payment(request,id):
     pg = tbl_programbooking.objects.get(id=id)
     total = (int(pg.program.program_price ) * 10) / 100
     if request.method == "POST":
+        user = tbl_user.objects.get(id=request.session["uid"])
+        user_email = user.user_email
+        pgm = tbl_programbooking.objects.get(id=id)
+        artist_email = pgm.artist.artist_email
         pg.booking_status = 3
         pg.save()
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rYour Payment Is Sucessfully Completed." ,#body
+            settings.EMAIL_HOST_USER,
+            [user_email],
+        )
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rPayment is Completed." ,#body
+            settings.EMAIL_HOST_USER,
+            [artist_email],
+        )
         return redirect("User:loader")
     else:
         return render(request,"User/Payment.html",{"total":total})
@@ -175,9 +225,25 @@ def viewproduct(request,id):
     return render(request,"User/View_product.html",{"data":cart})
 
 def cancel_booking(request,id):
+    user = tbl_user.objects.get(id=request.session["uid"])
+    user_email = user.user_email
+    pgm = tbl_programbooking.objects.get(id=id)
+    artist_email = pgm.artist.artist_email
     data = tbl_programbooking.objects.get(id=id)
     data.booking_status = 4
     data.save()
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\rYour Booking is Cancelled Completed." ,#body
+        settings.EMAIL_HOST_USER,
+        [user_email],
+    )
+    send_mail(
+        'Respected Sir/Madam ',#subject
+        "\rBooking is Cancelled." ,#body
+        settings.EMAIL_HOST_USER,
+        [artist_email],
+    )
     return redirect("User:viewbooking")
 
 def rating(request,mid):
@@ -348,6 +414,10 @@ def payment(request):
     bk = tbl_new_booking.objects.get(id=request.session["bookingid"])
     if request.method == "POST":
         cart = tbl_cart.objects.filter(booking=request.session["bookingid"])
+        user = tbl_user.objects.get(id=request.session["uid"])
+        user_email = user.user_email
+        cdata = tbl_cart.objects.filter(booking=request.session["bookingid"]).last()
+        artist_email = cart.artist.artist_email
         for i in cart:
             product = tbl_artistwork.objects.get(id=i.product.id)
             qty = i.cart_qty
@@ -356,6 +426,18 @@ def payment(request):
             product.save()
         bk.booking_status = 2
         bk.save()
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rYour Payment Is Sucessfully Completed." ,#body
+            settings.EMAIL_HOST_USER,
+            [user_email],
+        )
+        send_mail(
+            'Respected Sir/Madam ',#subject
+            "\rPayment is Completed." ,#body
+            settings.EMAIL_HOST_USER,
+            [artist_email],
+        )
         return redirect("User:loader")
     else:
         return render(request,"User/Payment.html",{"book":bk})

@@ -16,7 +16,7 @@
             <tr>
                 <td>District</td>
                 <td>
-                    <select name="sel_district" id="sel_district">
+                    <select name="sel_district" id="sel_district" autocomplete="off" required>
                         <option value="">...Select...</option>
                         {% for i in districtdata %}
                         <option 
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td>PlaceName</td>
-                <td><input type="text" name="txtname" placeholder="Enter Place" required value="{{editdata.place_name}}"></td>
+                <td><input type="text" name="txtname" placeholder="Enter Place" required value="{{editdata.place_name}}" autocomplete="off"></td>
             </tr>
             <tr>
                 

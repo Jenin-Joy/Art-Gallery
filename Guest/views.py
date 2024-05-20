@@ -28,7 +28,7 @@ def artistRegistration(request):
     district = tbl_district.objects.all()
     if request.method=="POST":
         place = tbl_place.objects.get(id=request.POST.get('sel_place'))
-        tbl_artist.objects.create(artist_address=request.POST.get("txtadd"),artist_about=request.POST.get("txtabout"),artist_name=request.POST.get("txtname"),artist_gender=request.POST.get("gender"),artist_contact=request.POST.get("txtcontact"),artist_email=request.POST.get("txtemail"),artist_photo=request.FILES.get("fileImage"),artist_proof=request.FILES.get("fileProof"),artist_password=request.POST.get("txtpwd"),place=place)
+        tbl_artist.objects.create(artist_address=request.POST.get("txtadd"),artist_about=request.POST.get("txtabout"),artist_name=request.POST.get("txtname"),artist_contact=request.POST.get("txtcontact"),artist_email=request.POST.get("txtemail"),artist_photo=request.FILES.get("fileImage"),artist_proof=request.FILES.get("fileProof"),artist_password=request.POST.get("txtpwd"),place=place)
         email = request.POST.get("txtemail")
         send_mail(
             'Respected Sir/Madam ',#subject
