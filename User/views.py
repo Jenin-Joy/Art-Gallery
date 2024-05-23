@@ -65,9 +65,8 @@ def UserFeedback(request):
     data=tbl_feedback.objects.filter(user=request.session["uid"])
     userID=tbl_user.objects.get(id=request.session["uid"])
     if request.method=="POST":
-        subject=request.POST.get('txtsubject')
         details=request.POST.get('txtfeedback')
-        tbl_feedback.objects.create(feedback_subject=subject,feedback_details=details,user=userID)
+        tbl_feedback.objects.create(feedback=details,user=userID)
         return redirect("User:UserFeedback")
     else:
         return render(request,"User/UserFeedback.html",{"data":data})

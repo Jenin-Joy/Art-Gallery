@@ -16,10 +16,6 @@
             <br><br>
             <h2 align="center">Post Feedback</h2>
             <tr>
-                <td>Subject</td>
-                <td><input type="text" name="txtsubject" placeholder="Enter Feedback Subject" autocomplete="off" required></td>
-            </tr>
-            <tr>
                 <td>FeedBack</td>
                 <td>
                     <textarea name="txtfeedback" id="txtfeedback" cols="20" rows="3" autocomplete="off" required></textarea>
@@ -41,7 +37,6 @@
 <table border="1" align="center">
     <tr>
         <td>Sl.No</td>
-        <td>Subject</td>
         <td>Feedback</td>
         <td>Date</td>
         
@@ -50,9 +45,8 @@
     {% for i in data %}
     <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{i.feedback_subject}}</td>
-        <td>{{i.feedback_details}}</td>
-        <td>{{i.feedback_postdate}}</td>
+        <td>{{i.feedback}}</td>
+        <td>{{i.date}}</td>
     
         <td>
             <a href="{% url 'User:delFeedback' i.id %}">Delete</a>

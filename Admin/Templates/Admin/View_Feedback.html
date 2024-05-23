@@ -9,6 +9,7 @@
     <title>Document</title>
 </head>
 <body>
+    <h2>Artist</h2>
     <table border="1" align="center" cellpadding="10">
         <tr>
             <th>Sl.No</th>
@@ -16,10 +17,29 @@
             <th>Feedback</th>
             <th>Date</th>
         </tr>
-        {% for i in data %}
+        {% for i in artist %}
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{i.artist.artist_name}}</td>
+            <td>{{i.feedback}}</td>
+            <td>{{i.date}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+<br><br>
+    <h2>User</h2>
+    <table border="1" align="center" cellpadding="10">
+        <tr>
+            <th>Sl.No</th>
+            <th>Name</th>
+            <th>Feedback</th>
+            <th>Date</th>
+        </tr>
+        {% for i in user %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.user.user_name}}</td>
             <td>{{i.feedback}}</td>
             <td>{{i.date}}</td>
         </tr>

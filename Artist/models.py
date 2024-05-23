@@ -30,5 +30,6 @@ class tbl_artistprogram_video(models.Model):
 
 class tbl_feedback(models.Model):
     feedback = models.CharField(max_length=100)
-    artist = models.ForeignKey(tbl_artist, on_delete=models.CASCADE)
+    artist = models.ForeignKey(tbl_artist, on_delete=models.SET_NULL,null=True)
+    user = models.ForeignKey(tbl_user, on_delete=models.SET_NULL,null=True)
     date = models.DateField(auto_now_add=True)

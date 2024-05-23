@@ -284,8 +284,11 @@ def ComplaintSolved(request):
     
 
 def viewfeedback(request):
-    data=tbl_feedback.objects.all()
-    return render(request,"Admin/View_Feedback.html",{'data':data})
+    artist = tbl_artist.objects.all()
+    user = tbl_user.objects.all()
+    userdata=tbl_feedback.objects.filter(user__in=user)
+    artistdata=tbl_feedback.objects.filter(artist__in=artist)
+    return render(request,"Admin/View_Feedback.html",{'artist':artistdata,"user":userdata})
 
 def addevent(request):
     event = tbl_event.objects.all()
