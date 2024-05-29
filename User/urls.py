@@ -42,6 +42,7 @@ urlpatterns = [
     path('newstarrating/',views.newstarrating,name="newstarrating"),
 
     path('viewevent/',views.viewevent,name="viewevent"),
+    path('viewevent_seat/<int:id>',views.viewevent_seat,name="viewevent_seat"),
 
 
     path('logout/',views.logout,name="logout"),

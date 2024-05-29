@@ -444,3 +444,42 @@ def payment(request):
 def viewevent(request):
     data = tbl_event.objects.all()
     return render(request,"User/View_Events.html",{"data":data})
+
+def viewevent_seat(request,id):
+    event = tbl_event.objects.get(id=id)
+    event_seat = range(1,int(event.event_seat)+1)
+    arr = []
+    j=1
+    for i in event_seat:
+        if i/10 == j:
+            arr.append(i) 
+            j=j+1
+    ticketbook = tbl_tickets.objects.all()
+    # print(arr)
+    if request.method == "POST":
+        ticket_count = tbl_ticket_booking.objects.filter(user=request.session["uid"],booking_status=0).count()
+        seat_count = len(request.POST.getlist("txtseat[]"))
+        seat = request.POST.getlist("txtseat[]")
+        event_amt = event.event_amount
+        total = int(event_amt) * seat_count
+        # print(seat)
+        if ticket_count > 0:
+            bk = tbl_ticket_booking.objects.get(user=request.session["uid"],booking_status=0)
+            for s in seat:
+                tic_count = tbl_tickets.objects.filter(booking=bk.id,seat_no=s).count()
+                if tic_count > 0:
+                    return render(request,"User/View_Event_Seats.html",{"msg1":"You Already Booked Seat "+s,"id":id})
+                else:
+                    tbl_tickets.objects.create(seat_no=s,booking=tbl_ticket_booking.objects.get(id=bk.id))
+            bk_amt = bk.booking_totalamount
+            tot = int(bk_amt) + total
+            bk.booking_totalamount = tot
+            bk.save()
+            return render(request,"User/View_Event_Seats.html",{"msg":"Booked"})
+        else:
+            bkid = tbl_ticket_booking.objects.create(user=tbl_user.objects.get(id=request.session["uid"]),booking_totalamount=total)
+            for s in seat:
+                tbl_tickets.objects.create(seat_no=s,booking=tbl_ticket_booking.objects.get(id=bkid.id))
+            return render(request,"User/View_Event_Seats.html",{"msg":"Booked"})
+    else:
+        return render(request,"User/View_Event_Seats.html",{"event":event,"event_seat":event_seat,"gap":arr,"book":ticketbook})

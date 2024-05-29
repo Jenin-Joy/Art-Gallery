@@ -1,0 +1,97 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .seat-num{
+            display: flex;
+            flex-direction: column;
+        }
+        .seat {
+            display: flex;
+            gap: 2rem;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+        .siz {
+            font-size: 45px;
+        }
+        input[type="checkbox"]+label>i {
+        font-size: 40px;
+    }
+
+    input[type="checkbox"]+label>i:before {
+        color: black;
+    }
+
+    input[type="checkbox"]:checked+label>i:before {
+        color: rgb(0, 138, 62);
+    }
+
+    .booked+label>i:before{
+        color:rgb(138, 23, 23) !important;
+    }
+    </style>
+</head>
+
+<body>
+    <br><br>
+    <h2 align="center">{{event.event_name}}</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+    <div class="container">
+        <div class="seat">
+            {% for i in event_seat %}
+            <!-- {{forloop.counter}} -->
+                
+                    <div class="seat-num">
+                        <input type="checkbox" 
+                        {% for b in book %}
+                            {% if i == b.seat_no %}
+                                disabled
+                                class="booked"
+                            {% endif %}
+                        {% endfor %}
+                        name="txtseat[]" id="txtseat{{ i }}" value="{{ i }}" style="display: none;">
+                        <label for="txtseat{{ i }}"><i class="fa-solid fa-couch siz"></i></label>
+                        {{i}}
+                    </div>
+                       
+                {% for j in gap %}
+                    {% if i == j %}
+                        </div><div class="seat">
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div> 
+    </div>
+    <input type="submit" value="Book">
+</form>
+</body>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'User:homepage' %}"
+</script>
+{% endif %}
+{% if msg1 %}
+<script>
+    alert("{{msg1}}")
+    window.location="{% url 'User:viewevent_seat' id %}"
+</script>
+{% endif %}
+
+</html>
+{% endblock content %}

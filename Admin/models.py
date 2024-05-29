@@ -33,4 +33,6 @@ class tbl_event(models.Model):
     event_start_date=models.DateField()
     event_end_date=models.DateField()
     event_details=models.CharField(max_length=30)
+    event_seat=models.CharField(max_length=30)
+    event_amount=models.IntegerField()
     event_image=models.FileField(upload_to='Assets/EventPhoto/')

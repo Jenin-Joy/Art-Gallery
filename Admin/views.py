@@ -297,6 +297,8 @@ def addevent(request):
                                 event_start_date=request.POST.get("txt_sdate"),
                                 event_end_date=request.POST.get("txt_edate"),
                                 event_details=request.POST.get("txt_details"),
+                                event_seat=request.POST.get("txt_seat"),
+                                event_amount=request.POST.get("txt_seat_amt"),
                                 event_image=request.FILES.get("txt_image"))
         return render(request,"Admin/Add_Events.html",{"msg":"Event Added Sucessfully.."})
     else:

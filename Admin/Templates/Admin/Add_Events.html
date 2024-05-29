@@ -39,6 +39,14 @@
                 <td><input type="file" name="txt_image" id="" autocomplete="off" required></td>
             </tr>
             <tr>
+                <td>Seat Count</td>
+                <td><input type="text" name="txt_seat" id=""></td>
+            </tr>
+            <tr>
+                <td>Seat Amount</td>
+                <td><input type="text" name="txt_seat_amt" id=""></td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center"><input type="submit" value="Add"></td>
             </tr>
         </table>
@@ -52,6 +60,8 @@
             <th>End Date</th>
             <th>Details</th>
             <th>Image</th>
+            <th>Seat Count</th>
+            <th>Seat Amount</th>
             <th>Action</th>
         </tr>
         {% for i in data %}
@@ -62,6 +72,8 @@
             <td>{{i.event_end_date}}</td>
             <td>{{i.event_details}}</td>
             <td><img src="{{i.event_image.url}}" width="150" height="150" alt=""></td>
+            <td>{{i.event_seat}}</td>
+            <td>{{i.event_amount}}</td>
             <td>
                 <a href="{% url 'WebAdmin:delevent' i.id %}">Delete</a>
             </td>

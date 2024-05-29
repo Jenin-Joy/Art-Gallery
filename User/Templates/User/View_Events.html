@@ -17,6 +17,9 @@
             <th>End Date</th>
             <th>Details</th>
             <th>Image</th>
+            <th>Seat Count</th>
+            <th>Seat Amount</th>
+            <th>Action</th>
         </tr>
         {% for i in data %}
         <tr>
@@ -26,6 +29,9 @@
             <td>{{i.event_end_date}}</td>
             <td>{{i.event_details}}</td>
             <td><img src="{{i.event_image.url}}" width="150" height="150" alt=""></td>
+            <td>{{i.event_seat}}</td>
+            <td>{{i.event_amount}}</td>
+            <td><a href="{% url 'User:viewevent_seat' i.id %}">Book Now</a></td>
         </tr>
         {% endfor %}
 

@@ -42,3 +42,13 @@ class tbl_cart(models.Model):
     cart_status=models.CharField(max_length=5,default='0')
     cart_qty=models.CharField(max_length=100)
     product=models.ForeignKey(tbl_artistwork,on_delete=models.CASCADE)
+
+class tbl_ticket_booking(models.Model):
+    booking_date = models.DateField(auto_now_add=True)
+    user=models.ForeignKey(tbl_user,on_delete=models.CASCADE)
+    booking_status=models.IntegerField(default=0)
+    booking_totalamount=models.CharField(max_length=50,null=True)
+
+class tbl_tickets(models.Model):
+    booking = models.ForeignKey(tbl_ticket_booking,on_delete=models.CASCADE)
+    seat_no = models.IntegerField()
