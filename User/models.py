@@ -48,7 +48,10 @@ class tbl_ticket_booking(models.Model):
     user=models.ForeignKey(tbl_user,on_delete=models.CASCADE)
     booking_status=models.IntegerField(default=0)
     booking_totalamount=models.CharField(max_length=50,null=True)
+    booking_time = models.TimeField()
+    event = models.ForeignKey(tbl_event,on_delete=models.CASCADE)
 
 class tbl_tickets(models.Model):
     booking = models.ForeignKey(tbl_ticket_booking,on_delete=models.CASCADE)
     seat_no = models.IntegerField()
+    status = models.IntegerField(default=0)

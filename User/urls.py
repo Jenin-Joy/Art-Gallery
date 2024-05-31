@@ -44,7 +44,13 @@ urlpatterns = [
     path('viewevent/',views.viewevent,name="viewevent"),
     path('viewevent_seat/<int:id>',views.viewevent_seat,name="viewevent_seat"),
 
+    path('ticketbooking/',views.ticketbooking,name="ticketbooking"),
+    path('ticketpayment/<int:id>',views.ticketpayment,name="ticketpayment"),
+    path('tickets/<int:id>',views.tickets,name="tickets"),
+    path('cancelbooking/',views.cancelbooking,name="cancelbooking"),
 
+
+    path('bookchecking/',views.bookchecking,name="bookchecking"),
     path('logout/',views.logout,name="logout"),
 
 ]

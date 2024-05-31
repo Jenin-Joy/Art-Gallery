@@ -59,6 +59,7 @@ urlpatterns = [
     path('viewfeedback/',views.viewfeedback,name="viewfeedback"),
     path('addevent/',views.addevent,name="addevent"),
     path('delevent/<int:id>',views.delevent,name="delevent"),
+    path('viewticketbooking/<int:id>',views.viewticketbooking,name="viewticketbooking"),
 
 
 ]

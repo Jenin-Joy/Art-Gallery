@@ -76,6 +76,7 @@
             <td>{{i.event_amount}}</td>
             <td>
                 <a href="{% url 'WebAdmin:delevent' i.id %}">Delete</a>
+                <a href="{% url 'WebAdmin:viewticketbooking' i.id %}">View Booking</a>
             </td>
         </tr>
         {% endfor %}

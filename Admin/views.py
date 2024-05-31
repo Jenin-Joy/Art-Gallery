@@ -307,3 +307,7 @@ def addevent(request):
 def delevent(request,id):
     tbl_event.objects.get(id=id).delete()
     return redirect("WebAdmin:addevent")
+
+def viewticketbooking(request,id):
+    book = tbl_ticket_booking.objects.filter(event=id)
+    return render(request,"Admin/View_Ticket_Booking.html",{"data":book})

@@ -5,6 +5,7 @@ from Artist.models import *
 from django.http import JsonResponse 
 from django.conf import settings
 from django.core.mail import send_mail
+from datetime import datetime
 # Create your views here.
 
 def homepage(request):
@@ -454,32 +455,85 @@ def viewevent_seat(request,id):
         if i/10 == j:
             arr.append(i) 
             j=j+1
-    ticketbook = tbl_tickets.objects.all()
+    ticketbook = tbl_tickets.objects.filter(booking__booking_status=1,status=0)
     # print(arr)
     if request.method == "POST":
         ticket_count = tbl_ticket_booking.objects.filter(user=request.session["uid"],booking_status=0).count()
         seat_count = len(request.POST.getlist("txtseat[]"))
-        seat = request.POST.getlist("txtseat[]")
-        event_amt = event.event_amount
-        total = int(event_amt) * seat_count
-        # print(seat)
-        if ticket_count > 0:
-            bk = tbl_ticket_booking.objects.get(user=request.session["uid"],booking_status=0)
-            for s in seat:
-                tic_count = tbl_tickets.objects.filter(booking=bk.id,seat_no=s).count()
-                if tic_count > 0:
-                    return render(request,"User/View_Event_Seats.html",{"msg1":"You Already Booked Seat "+s,"id":id})
-                else:
-                    tbl_tickets.objects.create(seat_no=s,booking=tbl_ticket_booking.objects.get(id=bk.id))
-            bk_amt = bk.booking_totalamount
-            tot = int(bk_amt) + total
-            bk.booking_totalamount = tot
-            bk.save()
-            return render(request,"User/View_Event_Seats.html",{"msg":"Booked"})
+        if seat_count > 0:
+            seat = request.POST.getlist("txtseat[]")
+            event_amt = event.event_amount
+            total = int(event_amt) * seat_count
+            # print(seat)
+            if ticket_count > 0:
+                bk = tbl_ticket_booking.objects.get(user=request.session["uid"],booking_status=0)
+                for s in seat:
+                    tic_count = tbl_tickets.objects.filter(booking=bk.id,seat_no=s).count()
+                    if tic_count > 0:
+                        return render(request,"User/View_Event_Seats.html",{"msg1":"You Already Booked Seat "+s,"id":id})
+                    else:
+                        tbl_tickets.objects.create(seat_no=s,booking=tbl_ticket_booking.objects.get(id=bk.id))
+                bk_amt = bk.booking_totalamount
+                tot = int(bk_amt) + total
+                bk.booking_totalamount = tot
+                bk.save()
+                return render(request,"User/View_Event_Seats.html",{"msg":"Booked","id":bk.id})
+            else:
+                bkid = tbl_ticket_booking.objects.create(user=tbl_user.objects.get(id=request.session["uid"]),booking_totalamount=total,booking_time=datetime.now(),event=tbl_event.objects.get(id=id))
+                for s in seat:
+                    tbl_tickets.objects.create(seat_no=s,booking=tbl_ticket_booking.objects.get(id=bkid.id))
+                return render(request,"User/View_Event_Seats.html",{"msg":"Booked","id":bkid.id})
         else:
-            bkid = tbl_ticket_booking.objects.create(user=tbl_user.objects.get(id=request.session["uid"]),booking_totalamount=total)
-            for s in seat:
-                tbl_tickets.objects.create(seat_no=s,booking=tbl_ticket_booking.objects.get(id=bkid.id))
-            return render(request,"User/View_Event_Seats.html",{"msg":"Booked"})
+            return render(request,"User/View_Event_Seats.html",{"msg1":"No Seat Booked","id":id})   
     else:
         return render(request,"User/View_Event_Seats.html",{"event":event,"event_seat":event_seat,"gap":arr,"book":ticketbook})
+
+def ticketbooking(request):
+    tbook = tbl_ticket_booking.objects.filter(user=request.session["uid"])
+    return render(request,"User/Ticket_booking.html",{"data":tbook})
+
+def tickets(request,id):
+    tic = tbl_tickets.objects.filter(booking=id,status=0)
+    return render(request,"User/Tickets.html",{"data":tic})
+
+def bookchecking(request):
+    # print("hai")
+    min = request.GET.get("min")
+    # print(min)
+    tbook = tbl_ticket_booking.objects.filter(booking_status=0)
+    for  t in tbook:
+        time = t.booking_time.minute
+        diff = int(min) - time
+        # print(diff)
+        if diff > 5:
+            tickets = tbl_tickets.objects.filter(booking=t.id)
+            for ti in tickets:
+                tbl_tickets.objects.get(id=ti.id).delete()
+            tbl_ticket_booking.objects.get(id=t.id).delete()
+    # print(datetime.now().minute)
+    return JsonResponse({"msg":"hai Hello"})
+
+def ticketpayment(request,id):
+    book = tbl_ticket_booking.objects.get(id=id)
+    total = book.booking_totalamount
+    if request.method == "POST":
+        book.booking_status=1
+        book.save()
+        return redirect("User:loader")
+    else:
+        return render(request,"User/Payment.html",{"total":total})
+
+def cancelbooking(request):
+    bk = tbl_tickets.objects.get(id=request.GET.get("tid"))
+    ticket = tbl_tickets.objects.filter(booking=bk.booking.id,status=0).count()
+    if ticket > 1:
+        bk.status = 1
+        bk.save()
+        return JsonResponse({"msg":"Ticket Cancelled.."})
+    else:
+        bk.status=1
+        bk.save()
+        book = tbl_ticket_booking.objects.get(id=bk.booking.id)
+        book.booking_status=2
+        book.save()
+        return JsonResponse({"msg1":"Ticket Cancelled.."})

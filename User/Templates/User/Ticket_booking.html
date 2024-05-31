@@ -1,0 +1,44 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>Date</td>
+            <td>Amount</td>
+            <td align="center">Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.booking_date}}</td>
+            <td>{{i.booking_totalamount}}</td>
+            <td>
+            {% if i.booking_status == 1 %}
+            Payed | <a href="{% url 'User:tickets' i.id %}">Tickets</a>
+            {% elif i.booking_status == 2 %}
+            Booking Cancelled
+            {% else %}
+            Not Payed | <a href="{% url 'User:ticketpayment' i.id %}">Payment</a>
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'User:ticketbooking' %}";
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}
