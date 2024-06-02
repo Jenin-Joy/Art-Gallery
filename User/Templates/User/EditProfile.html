@@ -18,11 +18,11 @@
             <table class="d-card" style="color: black;" align="center" cellpadding="10px">
                 <tr> 
                     <td>Name</td>
-                    <td><input type="text" class="textbox" name="txtname" id="" value="{{prodata.user_name}}" autocomplete="off" required></td>
+                    <td><input type="text" class="textbox" name="txtname" id="" value="{{prodata.user_name}}" autocomplete="off" required title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"></td>
                 </tr>
                 <tr>
                     <td>Contact</td>
-                    <td><input type="text" name="txtcon" class="textbox" id="" value="{{prodata.user_contact}}" autocomplete="off" required></td>
+                    <td><input type="text" name="txtcon" class="textbox" id="" value="{{prodata.user_contact}}" autocomplete="off" required title="Enter A Valid Contact" pattern="[7-9]{1}[0-9]{9}"></td>
                 </tr>
                 <tr>
                     <td>Email</td>

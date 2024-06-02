@@ -15,11 +15,11 @@
         <table align="center">
             <tr>
                 <td>Name</td>
-                <td><input type="text" name="txtname" placeholder="Enter Name" required value="{{editdata.admin_name}}" autocomplete="off" required></td>
+                <td><input type="text" name="txtname" placeholder="Enter Name" required value="{{editdata.admin_name}}" autocomplete="off" required title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"></td>
             </tr>
             <tr>
                 <td>Contact</td>
-                <td><input type="text" name="txtcontact" placeholder="Enter District" required value="{{editdata.admin_contact}}" autocomplete="off" required></td>
+                <td><input type="text" name="txtcontact" placeholder="Enter District" required value="{{editdata.admin_contact}}" autocomplete="off" required title="Enter A Valid Contact" pattern="[7-9]{1}[0-9]{9}"></td>
             </tr>
             <tr>
                 <td>Email</td>
@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type="text" name="txtpwd" placeholder="Enter District" required value="{{editdata.admin_password}}" autocomplete="off" required></td>
+                <td><input type="text" name="txtpwd" placeholder="Enter District" required value="{{editdata.admin_password}}" autocomplete="off" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"></td>
             </tr>
             <tr>
                 
