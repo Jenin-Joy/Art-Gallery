@@ -192,7 +192,9 @@ def userListRejected(request):
 
 def ArtistListNew(request):
     userdata = tbl_artist.objects.filter(artist_status=0)
-    return render(request,"Admin/ArtistListNew.html",{"userdata":userdata})
+    accepted = tbl_artist.objects.filter(artist_status=1)
+    rejected = tbl_artist.objects.filter(artist_status=2)
+    return render(request,"Admin/ArtistListNew.html",{"userdata":userdata,"accepted":accepted,"rejected":rejected})
 
 def acceptartist(request,aid):
     user = tbl_artist.objects.get(id=aid)
@@ -285,7 +287,8 @@ def SubCategoryupdate(request,eid):
 def ComplaintListNew(request):
     userdata=tbl_user.objects.all()
     userComplaint=tbl_complaint.objects.filter(complaint_status=0,user__in=userdata)
-    return render(request,"Admin/ComplaintListNew.html",{'userComplaint':userComplaint})
+    solved=tbl_complaint.objects.filter(complaint_status=1,user__in=userdata)
+    return render(request,"Admin/ComplaintListNew.html",{'userComplaint':userComplaint,"solved":solved})
 
 def ComplaintReply(request,cid):
     complaint = tbl_complaint.objects.get(id=cid)

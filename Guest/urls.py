@@ -7,4 +7,5 @@ urlpatterns = [
     path('AjaxPlace/',views.ajaxplace,name="ajaxplace"),
     path('Login/',views.Login,name="Login"),
     path('',views.index,name="index"),
+    path('ajaxemail/',views.ajaxemail,name="ajaxemail"),
 ]

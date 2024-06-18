@@ -458,7 +458,12 @@ def payment(request):
         return render(request,"User/Payment.html",{"book":bk})
 
 def viewevent(request):
+    flage = 0
     data = tbl_event.objects.all()
+    for i in data:
+        count = tbl_ticket_booking.objects.filter(event=i.id).count()
+        if count >= int(i.event_seat):
+            i.flage = 1
     return render(request,"User/View_Events.html",{"data":data})
 
 def viewevent_seat(request,id):

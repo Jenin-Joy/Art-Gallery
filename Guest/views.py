@@ -3,6 +3,7 @@ from Admin.models import *
 from Guest.models import *
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import JsonResponse
 # Create your views here.
 
 def index(request):
@@ -69,3 +70,11 @@ def Login(request):
             return render(request,"Guest/Login.html",{"msg":"Invalid Email Or Password"})
     else:
         return render(request,"Guest/Login.html")
+
+def ajaxemail(request):
+    useremailcount = tbl_user.objects.filter(user_email=request.GET.get("did")).count()
+    artistemailcount = tbl_artist.objects.filter(artist_email=request.GET.get("did")).count()
+    if ((useremailcount > 0) or (artistemailcount > 0)):
+        return JsonResponse({"msg":"Email Already Exist"})
+    else:
+        return render(request,"Guest/NewArtist.html")

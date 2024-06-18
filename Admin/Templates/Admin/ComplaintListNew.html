@@ -37,6 +37,34 @@
     {% endfor %}
 </table>
 
+<br><br>
+<h2>Solved Complaints</h2>
+        <table border="1" align="center" cellpadding="10">
+            <tr>
+                <td>Sl.No</td>
+                <td>Title</td>
+                <td>Complaint</td>
+                <td>POSTDate</td>
+                <td>UserName</td>
+                <td>Contact</td>
+                <td>Reply</td>
+                <td>ReplyDate</td>
+            </tr>
+            {% for i in solved %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.complaint_title}}</td>
+                <td>{{i.complaint_details}}</td>
+                <td>{{i.complaint_postdate}}</td>
+                <td>{{i.user.user_name}}</td>
+                <td>{{i.user.user_contact}}</td>
+                <td>{{i.complaint_reply}}</td>
+                <td>{{i.complaint_replydate}}</td>
+                
+            </tr>
+            {% endfor %}
+    </table>
+
 </body>
 </html>
 {% endblock content %}

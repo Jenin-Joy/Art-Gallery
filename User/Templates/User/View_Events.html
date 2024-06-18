@@ -31,7 +31,11 @@
             <td><img src="{{i.event_image.url}}" width="150" height="150" alt=""></td>
             <td>{{i.event_seat}}</td>
             <td>{{i.event_amount}}</td>
-            <td><a href="{% url 'User:viewevent_seat' i.id %}">Book Now</a></td>
+            <td>{% if i.flage >= 0 %}
+                Sold Out
+                {% else %}
+                <a href="{% url 'User:viewevent_seat' i.id %}">Book Now</a>
+                {% endif %}</td>
         </tr>
         {% endfor %}
 
