@@ -20,7 +20,7 @@ def userRegistration(request):
             settings.EMAIL_HOST_USER,
             [email],
         )
-        return redirect("Guest:userRegistration")
+        return render(request,"Guest/NewUser.html",{"msg":"Registred Sucessfully"})
     else:
         return render(request,"Guest/NewUser.html",{"districtdata":district})
 
@@ -36,7 +36,7 @@ def artistRegistration(request):
             settings.EMAIL_HOST_USER,
             [email],
         )
-        return redirect("Guest:artistRegistration")
+        return render(request,"Guest/NewArtist.html",{"msg":"Registred Sucessfully"})
     else:
         return render(request,"Guest/NewArtist.html",{"districtdata":district})
 

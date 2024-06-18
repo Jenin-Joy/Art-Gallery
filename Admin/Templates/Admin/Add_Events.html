@@ -14,7 +14,7 @@
         <table>
             <tr>
                 <td>Event Name</td>
-                <td><input type="text" name="txt_name" id="" autocomplete="off" required title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"></td>
+                <td><input type="text" name="txt_name" id="" autocomplete="off" required pattern="[a-zA-Z ]{3,15}"></td>
             </tr>
             <tr>
                 <td>Start Date</td>
@@ -35,12 +35,12 @@
                 </td>
             </tr>
             <tr>
-                <td>Image</td>
+                <td>Logo</td>
                 <td><input type="file" name="txt_image" id="" autocomplete="off" required></td>
             </tr>
             <tr>
                 <td>Seat Count</td>
-                <td><input type="text" name="txt_seat" id="" pattern="[0-9]{1,4}"></td>
+                <td><input type="text" name="txt_seat" id="" pattern="[0-9]{1,3}"></td>
             </tr>
             <tr>
                 <td>Seat Amount</td>
@@ -59,7 +59,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Details</th>
-            <th>Image</th>
+            <th>Logo</th>
             <th>Seat Count</th>
             <th>Seat Amount</th>
             <th>Action</th>

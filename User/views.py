@@ -9,7 +9,8 @@ from datetime import datetime
 # Create your views here.
 
 def homepage(request):
-    return render(request,"User/HomePage.html")
+    user = tbl_user.objects.get(id=request.session["uid"])
+    return render(request,"User/HomePage.html",{"user":user})
 
 def logout(request):
     del request.session["uid"]
@@ -24,7 +25,7 @@ def editprofile(request):
     if request.method=="POST":
         prodata.user_name=request.POST.get('txtname')
         prodata.user_contact=request.POST.get('txtcon')
-        prodata.user_email=request.POST.get('txtemail')
+        prodata.user_address=request.POST.get('txttext')
         prodata.save()
         return render(request,"User/EditProfile.html",{'msg':"Profile Updated"})
     else:
@@ -120,11 +121,21 @@ def ViewWork(request):
 def viewprogram(request):
     pgm = tbl_programtype.objects.all()
     data = tbl_artistprogram.objects.all()
+    artist = tbl_artist.objects.all()
     if request.method == "POST":
-        data = tbl_artistprogram.objects.filter(programtype=request.POST.get("sel_program"))
-        return render(request,"User/View_Program.html",{"data":data,"pgm":pgm})
+        if ((request.POST.get("sel_program")!="") and (request.POST.get("sel_artist")!="")):
+            data = tbl_artistprogram.objects.filter(programtype=request.POST.get("sel_program"),artist=request.POST.get("sel_artist"))
+            return render(request,"User/View_Program.html",{"data":data,"pgm":pgm,"artist":artist})
+        elif request.POST.get("sel_program")!="":
+            data = tbl_artistprogram.objects.filter(programtype=request.POST.get("sel_program"))
+            return render(request,"User/View_Program.html",{"data":data,"pgm":pgm,"artist":artist})
+        elif request.POST.get("sel_artist")!="":
+            data = tbl_artistprogram.objects.filter(artist=request.POST.get("sel_artist"))
+            return render(request,"User/View_Program.html",{"data":data,"pgm":pgm,"artist":artist})
+        else:
+            return render(request,"User/View_Program.html",{"data":data,"pgm":pgm,"artist":artist})
     else:
-        return render(request,"User/View_Program.html",{"data":data,"pgm":pgm})
+        return render(request,"User/View_Program.html",{"data":data,"pgm":pgm,"artist":artist})
 
 def viewprogramvideo(request,id):
     data = tbl_artistprogram_video.objects.filter(program=id)
@@ -159,7 +170,11 @@ def bookprogram(request,id):
 def buynow(request,id):
     work = tbl_artistwork.objects.get(id=id)
     total = work.work_price
+    stock = work.work_stock
     if request.method == "POST":
+        balance = int(stock) - 1
+        work.work_stock = balance
+        work.save()
         user = tbl_user.objects.get(id=request.session["uid"])
         user_email = user.user_email
         pgm = tbl_artistwork.objects.get(id=id)
@@ -189,7 +204,7 @@ def program_payment(request,id):
         user = tbl_user.objects.get(id=request.session["uid"])
         user_email = user.user_email
         pgm = tbl_programbooking.objects.get(id=id)
-        artist_email = pgm.artist.artist_email
+        artist_email = pgm.program.artist.artist_email
         pg.booking_status = 3
         pg.save()
         send_mail(
@@ -217,8 +232,7 @@ def paymentsuc(request):
 def viewbooking(request):
     bk = tbl_booking.objects.filter(user=request.session["uid"])
     book = tbl_new_booking.objects.filter(user=request.session["uid"],booking_status__gt=0)
-    program = tbl_programbooking.objects.filter(user=request.session["uid"])
-    return render(request,"User/View_booking.html",{"data":bk,"book":book,"program":program})
+    return render(request,"User/View_booking.html",{"data":bk,"book":book})
 
 def viewproduct(request,id):
     cart = tbl_cart.objects.filter(booking=id)
@@ -414,10 +428,11 @@ def payment(request):
     bk = tbl_new_booking.objects.get(id=request.session["bookingid"])
     if request.method == "POST":
         cart = tbl_cart.objects.filter(booking=request.session["bookingid"])
+        cartdata = tbl_cart.objects.filter(booking=request.session["bookingid"]).last()
         user = tbl_user.objects.get(id=request.session["uid"])
         user_email = user.user_email
         cdata = tbl_cart.objects.filter(booking=request.session["bookingid"]).last()
-        artist_email = cart.artist.artist_email
+        artist_email = cartdata.product.artist.artist_email
         for i in cart:
             product = tbl_artistwork.objects.get(id=i.product.id)
             qty = i.cart_qty
@@ -537,3 +552,7 @@ def cancelbooking(request):
         book.booking_status=2
         book.save()
         return JsonResponse({"msg1":"Ticket Cancelled.."})
+    
+def programbooking(request):
+    program = tbl_programbooking.objects.filter(user=request.session["uid"])
+    return render(request,"User/View_Program_Booking.html",{"program":program})

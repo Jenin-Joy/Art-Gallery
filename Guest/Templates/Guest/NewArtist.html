@@ -75,7 +75,12 @@
         </table>
     </form>
 
-    
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'Guest:artistRegistration' %}"
+    </script>
+    {% endif %}
 
 </body>
 </html>

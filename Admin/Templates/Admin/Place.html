@@ -9,7 +9,7 @@
     <title>Place</title>
 </head>
 <body>
-    <a href="{% url 'WebAdmin:LoadingHomePage' %}">Home</a>
+    <!-- <a href="{% url 'WebAdmin:LoadingHomePage' %}">Home</a> -->
     <form method="POST">
         {% csrf_token %}
         <table align="center">
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td>PlaceName</td>
-                <td><input type="text" name="txtname" placeholder="Enter Place" required value="{{editdata.place_name}}" autocomplete="off" title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"></td>
+                <td><input type="text" name="txtname" placeholder="Enter Place" required value="{{editdata.place_name}}" autocomplete="off" pattern="[a-zA-Z ]{3,15}"></td>
             </tr>
             <tr>
                 
@@ -59,7 +59,12 @@
         {% endfor %}
 
     </table>
-
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'WebAdmin:placeInsertSelect' %}"
+</script>
+{% endif %}
 </body>
 </html>
 {% endblock content %}

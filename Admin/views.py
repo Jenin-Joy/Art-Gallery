@@ -18,11 +18,22 @@ def logout(request):
     return redirect("Guest:Login")
 
 def districtInsertSelect(request):
+    flage = 0
     dis=tbl_district.objects.all()
     if request.method=="POST":
         disName=request.POST.get('txtname')
-        tbl_district.objects.create(district_name=disName)
-        return render(request,"Admin/District.html",{'data':dis})
+        lowercase = disName.lower()
+        for i in dis:
+            lower = i.district_name.lower()
+            # print(lower)
+            if lower == lowercase:
+                flage = flage + 1
+        # print(flage)
+        if flage > 0:
+            return render(request,"Admin/District.html",{'msg':"Data Already Added"})
+        else:
+            tbl_district.objects.create(district_name=disName)
+            return render(request,"Admin/District.html",{'data':dis})
     else:
         return render(request,"Admin/District.html",{'data':dis})
 
@@ -86,12 +97,22 @@ def editprogramtype(request,eid):
 
 
 def placeInsertSelect(request):
+    flage = 0
     district = tbl_district.objects.all()
     data=tbl_place.objects.all()
     if request.method=="POST":
         placeName=request.POST.get('txtname')
-        dis = tbl_district.objects.get(id=request.POST.get('sel_district'))
-        tbl_place.objects.create(place_name=placeName,district=dis)
+        lowercase = placeName.lower()
+        for i in data:
+            lower = i.place_name.lower()
+            if ((lower == lowercase) and (i.district.id == int(request.POST.get('sel_district')))):
+                flage = flage + 1
+        # print(flage)
+        if flage > 0:
+            return render(request,"Admin/Place.html",{'msg':"Data Already Added"})
+        else:
+            dis = tbl_district.objects.get(id=request.POST.get('sel_district'))
+            tbl_place.objects.create(place_name=placeName,district=dis)
         return render(request,"Admin/Place.html",{'data':data})
     else:
         return render(request,"Admin/Place.html",{'data':data,"districtdata":district})

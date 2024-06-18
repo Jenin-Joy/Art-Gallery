@@ -51,6 +51,7 @@ urlpatterns = [
 
 
     path('bookchecking/',views.bookchecking,name="bookchecking"),
+    path('programbooking/',views.programbooking,name="programbooking"),
     path('logout/',views.logout,name="logout"),
 
 ]

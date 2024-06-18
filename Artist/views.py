@@ -22,7 +22,7 @@ def editprofile(request):
     if request.method=="POST":
         prodata.artist_name=request.POST.get('txtname')
         prodata.artist_contact=request.POST.get('txtcon')
-        prodata.artist_email=request.POST.get('txtemail')
+        prodata.artist_about=request.POST.get('txttext')
         prodata.save()
         return render(request,"Artist/EditProfile.html",{'msg':"Profile Updated"})
     else:
