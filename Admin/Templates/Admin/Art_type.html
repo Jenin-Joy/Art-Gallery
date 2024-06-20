@@ -42,7 +42,12 @@
         {% endfor %}
 
     </table>
-
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'WebAdmin:arttype' %}"
+    </script>
+    {% endif %}
 </body>
 </html>
 {% endblock content %}

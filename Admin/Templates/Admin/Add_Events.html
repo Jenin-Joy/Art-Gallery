@@ -19,7 +19,7 @@
             <tr>
                 <td>Start Date</td>
                 <td>
-                    <input type="date" name="txt_sdate" id="inputdate1" autocomplete="off" required>
+                    <input type="date" name="txt_sdate" id="inputdate1" autocomplete="off" required onchange="endDate(this.value)">
                 </td>
             </tr>
             <tr>
@@ -106,5 +106,19 @@
         $('#inputdate1').attr('min', maxDate);
         $('#inputdate2').attr('min', maxDate);
     });
+
+    function endDate(enddatevalue){
+        var dtToday = new Date(enddatevalue);
+     
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+         day = '0' + day.toString();
+        var maxDate = year + '-' + month + '-' + day;
+        $('#inputdate2').attr('min', maxDate);
+    }
     </script>
 {% endblock content %}

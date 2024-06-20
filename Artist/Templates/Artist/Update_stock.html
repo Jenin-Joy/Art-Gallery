@@ -7,10 +7,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .back-btn {
+            background-color: #009efb;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+    </style>
 </head>
 <body>
     <form action="" method="post">
-        <a href="{% url 'Artist:addwork' %}">Back</a>
+        <div class="back-btn"><a href="{% url 'Artist:addwork' %}" style="color: white;">Back</a></div>
         {% csrf_token %}
         <table>
             <tr>

@@ -225,11 +225,16 @@ def program_verification(request,id,val):
     return redirect("Artist:viewbooking")
 
 def feedback(request):
+    feed = tbl_feedback.objects.filter(artist=request.session["artid"])
     if request.method == "POST":
         tbl_feedback.objects.create(feedback=request.POST.get("txt_feedback"),artist=tbl_artist.objects.get(id=request.session["artid"]))
         return render(request,"Artist/FeedBack.html",{"msg":"FeedBack Send Sucessfully"})
     else:
-        return render(request,"Artist/FeedBack.html")
+        return render(request,"Artist/FeedBack.html",{"data":feed})
+
+def delFeedback(request,did):
+    tbl_feedback.objects.get(id=did).delete()
+    return redirect("Artist:feedback")
 
 def viewevent(request):
     data = tbl_event.objects.all()

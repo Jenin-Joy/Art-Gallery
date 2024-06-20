@@ -51,11 +51,22 @@ def districtupdate(request,eid):
         return render(request,"Admin\District.html",{"editdata":editdata})
 
 def arttype(request):
+    flage = 0
     dis=tbl_arttype.objects.all()
     if request.method=="POST":
         disName=request.POST.get('txtname')
-        tbl_arttype.objects.create(arttype_name=disName)
-        return redirect("WebAdmin:arttype")
+        lowercase = disName.lower()
+        for i in dis:
+            lower = i.arttype_name.lower()
+            # print(lower)
+            if lower == lowercase:
+                flage = flage + 1
+        # print(flage)
+        if flage > 0:
+            return render(request,"Admin/Art_type.html",{'msg':"Data Already Added"})
+        else:
+            tbl_arttype.objects.create(arttype_name=disName)
+            return redirect("WebAdmin:arttype")
     else:
         return render(request,"Admin/Art_type.html",{'data':dis})
 
@@ -74,11 +85,22 @@ def editarttype(request,eid):
         
 
 def programtype(request):
+    flage = 0
     dis=tbl_programtype.objects.all()
     if request.method=="POST":
         disName=request.POST.get('txtname')
-        tbl_programtype.objects.create(programtype_name=disName)
-        return redirect("WebAdmin:programtype")
+        lowercase = disName.lower()
+        for i in dis:
+            lower = i.programtype_name.lower()
+            # print(lower)
+            if lower == lowercase:
+                flage = flage + 1
+        # print(flage)
+        if flage > 0:
+            return render(request,"Admin/Program_type.html",{'msg':"Data Already Added"})
+        else:
+            tbl_programtype.objects.create(programtype_name=disName)
+            return redirect("WebAdmin:programtype")
     else:
         return render(request,"Admin/Program_type.html",{'data':dis})
 
@@ -334,4 +356,7 @@ def delevent(request,id):
 
 def viewticketbooking(request,id):
     book = tbl_ticket_booking.objects.filter(event=id)
-    return render(request,"Admin/View_Ticket_Booking.html",{"data":book})
+    event = tbl_event.objects.get(id=id)
+    bookcount = tbl_tickets.objects.filter(booking__event=id,booking__booking_status=1,status=0).count()
+    remain = int(event.event_seat) - int(bookcount)
+    return render(request,"Admin/View_Ticket_Booking.html",{"data":book,"booking":bookcount,"remain":remain})

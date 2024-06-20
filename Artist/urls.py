@@ -28,6 +28,7 @@ urlpatterns = [
     path('multidelivered/<int:id>',views.multidelivered,name="multidelivered"),
 
     path('feedback/',views.feedback,name="feedback"),
+    path('delFeedback/<int:did>',views.delFeedback,name="delFeedback"),
     path('viewevent/',views.viewevent,name="viewevent"),
 
     path('logout/',views.logout,name="logout"),

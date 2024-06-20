@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td>Email</td>
-                <td><input type="email" name="txtemail" placeholder="Enter Email" required autocomplete="off"></td>
+                <td><input type="email" name="txtemail" id="emailcheck" placeholder="Enter Email" required autocomplete="off"></td>
             </tr>
             <tr>
                 <td>Address</td>
@@ -94,6 +94,23 @@
             data: { did: did, },
             success: function (data) {
                 $("#sel_place").html(data);
+            },
+        });
+    });
+
+    $("#emailcheck").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Guest:ajaxemail' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                // $("#sel_place").html(data);
+                if (data.msg)
+                {
+                    alert(data.msg);
+                    document.getElementById("emailcheck").value = ''
+                }
             },
         });
     });

@@ -28,6 +28,28 @@
         window.location = "{% url 'Artist:homepage' %}"
     </script>
     {% endif %}
+<br><br><br>
+    <table border="1" align="center">
+        <tr>
+            <td>Sl.No</td>
+            <td>Feedback</td>
+            <td>Date</td>
+            
+            <td>Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.feedback}}</td>
+            <td>{{i.date}}</td>
+        
+            <td>
+                <a href="{% url 'Artist:delFeedback' i.id %}">Delete</a>
+                
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
 {% endblock content %}
