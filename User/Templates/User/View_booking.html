@@ -15,6 +15,7 @@
         <tr>
             <td>#</td>
             <td>Work</td>
+            <td>Image</td>
             <td>Worker</td>
             <td>Booking Date</td>
             <td>Status</td>
@@ -23,6 +24,7 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{i.work.work_caption}}</td>
+            <td><img src="{{i.work.work_image.url}}" width="150" height="150" alt=""></td>
             <td>{{i.work.artist.artist_name}}</td>
             <td>{{i.booking_date}}</td>
             <td>

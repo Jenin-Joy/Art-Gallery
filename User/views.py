@@ -461,9 +461,11 @@ def viewevent(request):
     flage = 0
     data = tbl_event.objects.all()
     for i in data:
-        count = tbl_ticket_booking.objects.filter(event=i.id).count()
+        count = tbl_tickets.objects.filter(booking__event=i.id).count()
         if count >= int(i.event_seat):
-            i.flage = 1
+            i.flage = flage + 1
+        else:
+            i.flage = 0
     return render(request,"User/View_Events.html",{"data":data})
 
 def viewevent_seat(request,id):
@@ -475,7 +477,7 @@ def viewevent_seat(request,id):
         if i/10 == j:
             arr.append(i) 
             j=j+1
-    ticketbook = tbl_tickets.objects.filter(booking__booking_status=1,status=0)
+    ticketbook = tbl_tickets.objects.filter(booking__booking_status=1,status=0,booking__event=id)
     # print(arr)
     if request.method == "POST":
         ticket_count = tbl_ticket_booking.objects.filter(user=request.session["uid"],booking_status=0).count()
