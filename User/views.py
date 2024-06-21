@@ -461,7 +461,7 @@ def viewevent(request):
     flage = 0
     data = tbl_event.objects.all()
     for i in data:
-        count = tbl_tickets.objects.filter(booking__event=i.id).count()
+        count = tbl_tickets.objects.filter(booking__event=i.id,status=0).count()
         if count >= int(i.event_seat):
             i.flage = flage + 1
         else:
