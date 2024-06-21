@@ -31,6 +31,9 @@ urlpatterns = [
     path('delFeedback/<int:did>',views.delFeedback,name="delFeedback"),
     path('viewevent/',views.viewevent,name="viewevent"),
 
+    path('viewrating/<int:wid>',views.viewrating,name="viewrating"),
+    path('starrating/',views.starrating,name="starrating"),
+
     path('logout/',views.logout,name="logout"),
 
 ]

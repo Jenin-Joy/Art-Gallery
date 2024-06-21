@@ -82,7 +82,8 @@
             <td>
                 <a href="{% url 'Artist:delwork' i.id %}">Delete</a> /
                 <a href="{% url 'Artist:updatestock' i.id %}">Update Stock</a> /
-                <a href="{% url 'Artist:editwork' i.id %}">Edit</a>
+                <a href="{% url 'Artist:editwork' i.id %}">Edit</a>/ 
+                <a href="{% url 'Artist:viewrating' i.id %}">View Rating</a>
             </td>
         </tr>
         {% endfor %}

@@ -4,6 +4,7 @@ from Artist.models import *
 from User.models import *
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import JsonResponse
 # Create your views here.
 
 def homepage(request):
@@ -239,3 +240,43 @@ def delFeedback(request,did):
 def viewevent(request):
     data = tbl_event.objects.all()
     return render(request,"Artist/View_Events.html",{"data":data})
+
+def viewrating(request, wid):
+    parray=[1,2,3,4,5]
+    mid=wid
+    # wdata=tbl_booking.objects.get(id=mid)
+    
+    counts=0
+    counts=stardata=tbl_rating.objects.filter(work=mid).count()
+    if counts>0:
+        res=0
+        stardata=tbl_rating.objects.filter(work=mid).order_by('-datetime')
+        for i in stardata:
+            res=res+i.rating_data
+        avg=res//counts
+        return render(request,"Artist/View_Rating.html",{'mid':wid,'data':stardata,'ar':parray,'avg':avg,'count':counts})
+    else:
+         return render(request,"Artist/View_Rating.html",{'mid':wid})
+
+def starrating(request):
+    r_len = 0
+    five = four = three = two = one = 0
+    # cdata = tbl_booking.objects.get(id=request.GET.get("pdt"))
+    rate = tbl_rating.objects.filter(work=request.GET.get("pdt"))
+    for i in rate:
+        if int(i.rating_data) == 5:
+            five = five + 1
+        elif int(i.rating_data) == 4:
+            four = four + 1
+        elif int(i.rating_data) == 3:
+            three = three + 1
+        elif int(i.rating_data) == 2:
+            two = two + 1
+        elif int(i.rating_data) == 1:
+            one = one + 1
+        else:
+            five = four = three = two = one = 0
+        r_len = r_len + int(i.rating_data)
+    rlen = r_len // 5
+    result = {"five":five,"four":four,"three":three,"two":two,"one":one,"total_review":rlen}
+    return JsonResponse(result)

@@ -92,7 +92,8 @@
                                                             placeholder="XX/XX" pattern="[0-9/]{5,5}"
                                                             title="Enter Correct Date" minlength="5" maxlength="5"
                                                             class="text-box">
-                                                        <span id="datecheck"></span></td>
+                                                        <span id="datecheck"></span>
+                                                    </td>
                                                     <td>CCV</td>
                                                     <td><input type="text" style="width: 50px;" id="credit-card-ccv"
                                                             name="txtccv" required="required" autocomplete="off"
@@ -160,6 +161,7 @@
             // Get current date
             const currentDate = new Date();
             const currentYear = currentDate.getFullYear() % 100; // Get last two digits of current year
+            const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
 
             // Validate month is between 1 and 12
             const isValidMonth = /^\d{2}$/.test(month) && parseInt(month, 10) >= 1 && parseInt(month, 10) <= 12;
@@ -167,16 +169,27 @@
             // Validate year is equal to or greater than current year
             const isValidYear = /^\d{2}$/.test(year) && parseInt(year, 10) >= currentYear;
 
-            if (!isValidMonth || !isValidYear) {
+            let isValidDate = false;
+
+            if (isValidMonth && isValidYear) {
+                const expYear = parseInt(year, 10);
+                const expMonth = parseInt(month, 10);
+
+                if (expYear > currentYear || (expYear === currentYear && expMonth >= currentMonth)) {
+                    isValidDate = true;
+                }
+            }
+
+            if (!isValidDate) {
                 // Handle invalid input (e.g., show error message, disable form submission)
                 console.log('Invalid expiration date');
-                // document.getElementById("datecheck").innerHTML = 'Invalid expiration date'
-                alert('Invalid expiration date')
-                document.getElementById("credit-card-exp").value = ''
+                alert('Invalid expiration date');
+                document.getElementById("credit-card-exp").value = '';
                 // Optionally, you can clear the input field or show an error message
                 // creditCardExp.value = '';
             }
         }
+
 
         // Event listener for onchange
         creditCardExp.addEventListener("change", function () {

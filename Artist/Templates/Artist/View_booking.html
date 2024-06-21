@@ -78,7 +78,9 @@
         <tr>
             <td>#</td>
             <td>User</td>
+            <td>User Address</td>
             <td>Program</td>
+            <td>Booking Description</td>
             <td>Amount</td>
             <td>Booking Amount</td>
             <td>Booking For Date</td>
@@ -89,7 +91,9 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{i.user.user_name}}</td>
+            <td>{{i.user.user_address}}</td>
             <td>{{i.program.program_caption}}</td>
+            <td>{{i.booking_description}}</td>
             <td>{{i.program.program_price}}</td>
             <td>{{i.program.program_price|mul:10|div:100}}</td>
             <td>{{i.booking_fordate}}</td>
