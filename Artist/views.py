@@ -8,7 +8,8 @@ from django.http import JsonResponse
 # Create your views here.
 
 def homepage(request):
-    return render(request,"Artist/HomePage.html")
+    data = tbl_event.objects.all()
+    return render(request,"Artist/HomePage.html",{"data":data})
 
 def logout(request):
     del request.session["artid"]
